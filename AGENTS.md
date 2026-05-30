@@ -7,6 +7,7 @@
 - Keep using the same branch for commits and subsequent demands during the chat.
 - Do not create another branch or merge the current branch automatically when a new demand is requested during the same chat.
 - Create another branch or merge the current branch only when Hugo explicitly requests it.
+- After Hugo requests the merge and the integration is successfully published to the base branch, delete the completed work branch locally and from the remote repository.
 
 ## Version Control
 
