@@ -11,6 +11,8 @@
 ## Version Control
 
 - Commit new implementations and bug fixes as the work progresses.
+- Write all Git commit messages in Portuguese.
+- Apply the Portuguese language requirement only to Git commit messages. Do not use it as a rule for source code, file names, variables, identifiers, or other technical naming.
 - Keep commits focused and descriptive so the application can be restored to a known working state if necessary.
 - Verify the relevant behavior before committing whenever feasible.
 - Do not mix unrelated changes in the same commit.
