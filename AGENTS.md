@@ -2,10 +2,11 @@
 
 ## Branches
 
-- Start each new demand from an up-to-date base branch.
-- Create a dedicated branch for each demand before editing files.
-- Include `hugo` in the branch name and use a short description of the demand.
-- Do not merge a demand branch until Hugo explicitly confirms that the demand is complete.
+- At the beginning of each new work chat, start from an up-to-date base branch and create a dedicated branch before editing files.
+- Include `hugo` in the branch name and use a short description of the initial demand.
+- Keep using the same branch for commits and subsequent demands during the chat.
+- Do not create another branch or merge the current branch automatically when a new demand is requested during the same chat.
+- Create another branch or merge the current branch only when Hugo explicitly requests it.
 
 ## Version Control
 
