@@ -23,6 +23,13 @@
     if (SkillsScene) {
       SkillsScene.init();
     }
+
+    // Auto-fullscreen no primeiro clique do usuário
+    document.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    }, { once: true });
   }
 
   function setCurrentYear() {
@@ -138,6 +145,7 @@
     }
 
     // Navegação por arrasto horizontal interativo (PointerEvents - suporta Mouse e Toque)
+    let isDragReady = false;
     let isDragging = false;
     let dragStartX = 0;
     let dragProgress = 0;
@@ -147,6 +155,19 @@
     let nearLeftEdge = false;
     let nearRightEdge = false;
 
+    // Helper para limpar estilos inline de todas as páginas
+    function clearDragStyles() {
+      pageOrder.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.transform = "";
+          el.style.opacity = "";
+          el.style.transition = "";
+          el.style.visibility = "";
+        }
+      });
+    }
+
     window.addEventListener("pointerdown", (e) => {
       // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
@@ -154,26 +175,10 @@
       const now = Date.now();
       if (now - lastTransitionTime < 900) return;
 
-      isDragging = true;
+      isDragReady = true;
+      isDragging = false;
       dragStartX = e.clientX;
       dragProgress = 0;
-
-      // Desativar transições de CSS temporariamente
-      const curPage = document.getElementById(pageOrder[activeIndex]);
-      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
-      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
-
-      if (curPage) curPage.style.transition = "none";
-      if (nextPage) {
-        nextPage.style.transition = "none";
-        nextPage.style.visibility = "visible";
-        nextPage.style.opacity = "1";
-      }
-      if (prevPage) {
-        prevPage.style.transition = "none";
-        prevPage.style.visibility = "visible";
-        prevPage.style.opacity = "1";
-      }
     });
 
     window.addEventListener("pointermove", (e) => {
@@ -181,8 +186,8 @@
       nearLeftEdge = e.clientX < edgeThreshold && activeIndex > 0;
       nearRightEdge = e.clientX > (width - edgeThreshold) && activeIndex < pageOrder.length - 1;
 
+      // Atualizar classes das bordas no body quando não estiver arrastando
       if (!isDragging) {
-        // Atualizar classes das bordas no body quando não estiver arrastando
         if (nearLeftEdge) {
           document.body.classList.add("near-left-edge");
           document.body.classList.remove("near-right-edge");
@@ -192,15 +197,36 @@
         } else {
           document.body.classList.remove("near-left-edge", "near-right-edge");
         }
-        return;
       }
 
-      // Ocultar setas das bordas durante o arraste
-      document.body.classList.remove("near-left-edge", "near-right-edge");
+      if (!isDragReady) return;
 
       const diffX = e.clientX - dragStartX;
-      dragProgress = diffX / window.innerWidth;
 
+      // Só inicia o arraste real se mover mais de 8px (evita flashes de página no clique simples)
+      if (!isDragging && Math.abs(diffX) > 8) {
+        isDragging = true;
+        document.body.classList.remove("near-left-edge", "near-right-edge");
+
+        // Desativar transições de CSS temporariamente
+        const curPage = document.getElementById(pageOrder[activeIndex]);
+        const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+        const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+
+        if (curPage) curPage.style.transition = "none";
+        if (nextPage) {
+          nextPage.style.transition = "none";
+          nextPage.style.visibility = "visible";
+        }
+        if (prevPage) {
+          prevPage.style.transition = "none";
+          prevPage.style.visibility = "visible";
+        }
+      }
+
+      if (!isDragging) return;
+
+      dragProgress = diffX / window.innerWidth;
       // Limitar progress entre -1 e 1
       dragProgress = Math.max(-1, Math.min(1, dragProgress));
 
@@ -236,6 +262,7 @@
     });
 
     window.addEventListener("pointerup", (e) => {
+      isDragReady = false;
       if (!isDragging) return;
       isDragging = false;
 
@@ -249,9 +276,14 @@
       if (nextPage) nextPage.style.transition = "";
       if (prevPage) prevPage.style.transition = "";
 
+      // Forçar reflow
+      document.body.offsetHeight;
+
       if (dragProgress < -threshold && nextPage) {
+        clearDragStyles();
         navigatePage(activeIndex + 1);
       } else if (dragProgress > threshold && prevPage) {
+        clearDragStyles();
         navigatePage(activeIndex - 1);
       } else {
         // Snap back suave para a página atual
@@ -262,12 +294,16 @@
         if (nextPage) {
           nextPage.style.transform = "";
           nextPage.style.opacity = "";
-          nextPage.style.visibility = "";
+          setTimeout(() => {
+            if (!isDragging) nextPage.style.visibility = "";
+          }, 800);
         }
         if (prevPage) {
           prevPage.style.transform = "";
           prevPage.style.opacity = "";
-          prevPage.style.visibility = "";
+          setTimeout(() => {
+            if (!isDragging) prevPage.style.visibility = "";
+          }, 800);
         }
       }
       dragProgress = 0;
