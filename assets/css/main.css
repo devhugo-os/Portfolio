@@ -25,19 +25,15 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  overflow-x: hidden;
 html, body {
   height: 100% !important;
   overflow: hidden !important;
 }
 
 body {
+  margin: 0;
   background:
     linear-gradient(rgba(245, 242, 232, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(245, 242, 232, 0.03) 1px, transparent 1px),
