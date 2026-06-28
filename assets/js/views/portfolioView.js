@@ -40,11 +40,10 @@
       article.dataset.tilt = "";
 
       const logo = createElement("div", "skill-logo");
-      const img = createElement("img");
-      img.src = skill.icon;
-      img.alt = `Logo ${skill.name}`;
-      img.loading = "lazy";
-      logo.appendChild(img);
+      const canvas = createElement("canvas", "skill-3d-canvas");
+      canvas.dataset.name = skill.name;
+      canvas.dataset.icon = skill.icon;
+      logo.appendChild(canvas);
 
       const title = createElement("h3", "", skill.name);
       const detail = createElement("p", "", skill.detail);
@@ -159,10 +158,24 @@
       const forks = createElement("span");
       forks.append(createIcon("bi-diagram-2"), document.createTextNode(String(repo.forks)));
 
+      const contributions = createElement("span", "repo-contributions");
+      const gitIcon = createIcon("bi-git");
+      const countSpan = createElement("span", "contrib-count", "...");
+      contributions.append(gitIcon, countSpan, document.createTextNode(" contribs"));
+      
+      // Busca contribuições de forma assíncrona
+      if (window.Portfolio.Model && window.Portfolio.Model.fetchRepoContributions) {
+        window.Portfolio.Model.fetchRepoContributions(repo.name).then(count => {
+          countSpan.textContent = String(count);
+        }).catch(() => {
+          countSpan.textContent = "0";
+        });
+      }
+
       const updated = createElement("span");
       updated.append(createIcon("bi-clock-history"), document.createTextNode(formatDate(repo.updatedAt)));
 
-      meta.append(language, stars, forks, updated);
+      meta.append(language, stars, forks, contributions, updated);
       article.append(title, description, topics, link, meta);
       return article;
     });
