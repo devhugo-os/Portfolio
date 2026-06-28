@@ -59,8 +59,16 @@
           }
           
           // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill
-          const isDefaultBlack = path.color && path.color.getHexString() === "000000";
-          const finalColor = path.color && !isDefaultBlack ? path.color : new THREE.Color(languageColor);
+          // Se for o Python, aplicamos azul na cobra superior, amarelo na inferior e branco nos olhos
+          let finalColor;
+          if (url.includes("python") || url.includes("374016")) {
+            if (i === 0) finalColor = new THREE.Color("#3776AB"); // Azul oficial
+            else if (i === 1) finalColor = new THREE.Color("#FFD343"); // Amarelo oficial
+            else finalColor = new THREE.Color("#FFFFFF");
+          } else {
+            const isDefaultBlack = path.color && path.color.getHexString() === "000000";
+            finalColor = path.color && !isDefaultBlack ? path.color : new THREE.Color(languageColor);
+          }
           
           // Estilo metálico e vibrante para a cor do SVG
           const material = new THREE.MeshStandardMaterial({
