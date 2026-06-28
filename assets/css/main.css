@@ -46,7 +46,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -3; /* Moved back behind hero-scene */
   background:
     linear-gradient(115deg, rgba(66, 242, 183, 0.08), transparent 28%),
     linear-gradient(245deg, rgba(255, 107, 87, 0.08), transparent 30%),
@@ -85,12 +85,39 @@ textarea {
   color: var(--text);
 }
 
+/* Hide default cursor globally */
+body,
+a,
+button,
+input,
+textarea,
+select,
+[role="button"],
+.magnetic-link,
+.skill-card,
+.repo-card,
+.featured-card {
+  cursor: none !important;
+}
+
+/* Hide scrollbar globally */
+body,
+.portfolio-page {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar,
+.portfolio-page::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 .cursor-core,
 .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 99999; /* Above navbar and all overlays */
   pointer-events: none;
   opacity: 0;
   transform: translate3d(-50%, -50%, 0);
@@ -102,14 +129,20 @@ textarea {
   height: 8px;
   border-radius: 50%;
   background: var(--mint);
-  box-shadow: 0 0 22px rgba(66, 242, 183, 0.82);
+  box-shadow: 0 0 16px var(--mint), 0 0 8px #fff;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s ease;
 }
 
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(245, 242, 232, 0.55);
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(66, 242, 183, 0.45);
   border-radius: 50%;
+  background: transparent;
+  transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
+              height 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
+              border-color 0.25s ease, 
+              background-color 0.25s ease;
 }
 
 body.cursor-ready .cursor-core,
@@ -118,9 +151,16 @@ body.cursor-ready .cursor-ring {
 }
 
 body.cursor-active .cursor-ring {
-  width: 58px;
-  height: 58px;
-  border-color: rgba(247, 201, 72, 0.72);
+  width: 54px;
+  height: 54px;
+  border-color: var(--amber);
+  background-color: rgba(247, 201, 72, 0.08);
+}
+
+body.cursor-active .cursor-core {
+  background-color: var(--amber);
+  box-shadow: 0 0 20px var(--amber), 0 0 10px #fff;
+  transform: translate3d(-50%, -50%, 0) scale(1.6);
 }
 
 .site-header {
@@ -222,7 +262,7 @@ body.cursor-active .cursor-ring {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -3;
+  z-index: -2; /* Brought forward, in front of background gradient but behind content */
   pointer-events: none;
   display: block;
 }
@@ -238,11 +278,11 @@ body.cursor-active .cursor-ring {
 }
 
 .portfolio-page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   overflow-y: auto;
   overflow-x: hidden;
   backface-visibility: hidden;
