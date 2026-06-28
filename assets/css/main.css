@@ -585,15 +585,17 @@ body.near-right-edge .cursor-ring {
 }
 
 .about-copy {
-  color: rgba(245, 242, 232, 0.84);
+  color: #ffffff !important;
   font-size: 1rem;
   line-height: 1.78;
 }
 
 .about-copy p {
-  margin: 0 0 10px;
-  font-size: 0.94rem;
-  line-height: 1.6;
+  margin: 0 0 12px;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95) !important;
 }
 
 .about-tags {
@@ -628,8 +630,8 @@ body.near-right-edge .cursor-ring {
 
 .skill-card {
   position: relative;
-  min-height: 156px;
-  padding: 14px;
+  height: 235px !important; /* Altura fixa garantida */
+  padding: 16px;
   overflow: hidden;
   border: 1px solid rgba(245, 242, 232, 0.18);
   border-radius: var(--radius);
@@ -641,6 +643,10 @@ body.near-right-edge .cursor-ring {
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
               border-color 0.3s ease, 
               box-shadow 0.3s ease;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
 }
 
 .skill-card::before {
@@ -717,7 +723,8 @@ body.near-right-edge .cursor-ring {
 
 .skill-experience-badge {
   display: inline-block !important;
-  margin-top: 10px !important;
+  margin-top: auto !important;
+  margin-bottom: 2px !important;
   padding: 4px 10px !important;
   border-radius: var(--radius) !important;
   border: 1px solid var(--skill-color, var(--mint)) !important;
@@ -755,7 +762,7 @@ body.near-right-edge .cursor-ring {
 
 .featured-card {
   position: relative;
-  height: 280px !important; /* Altura fixa garantida para alinhar com repositórios */
+  height: 340px !important; /* Altura fixa garantida para alinhar com repositórios e dar espaço */
   padding: 16px;
   border: 1px solid rgba(245, 242, 232, 0.17);
   border-radius: var(--radius);
@@ -792,7 +799,7 @@ body.near-right-edge .cursor-ring {
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
-  height: 280px !important; /* Altura fixa garantida */
+  height: 340px !important; /* Altura aumentada para evitar corte de descrições longas */
 }
 
 .repo-footer {
@@ -1487,7 +1494,27 @@ img {
   }
 
   .navbar-collapse {
-    padding: 12px 0 16px;
+    padding: 16px 20px !important;
+    background: rgba(9, 10, 8, 0.96) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    border-radius: var(--radius) !important;
+    margin-top: 10px !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  .navbar-toggler {
+    border: 1px solid rgba(66, 242, 183, 0.3) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: 0 0 10px rgba(66, 242, 183, 0.4) !important;
+  }
+  
+  .navbar-toggler-icon {
+    filter: invert(1) hue-rotate(90deg) brightness(1.2) !important;
   }
 
   .hero-grid,
@@ -1591,8 +1618,8 @@ img {
   }
 }
 
-/* Comprime ligeiramente a seção de contato verticalmente */
+/* Ajuste fino da seção de contato verticalmente */
 .contact-section {
-  padding-top: 80px !important;
-  padding-bottom: 80px !important;
+  padding-top: 120px !important; /* Mesma distância e alinhamento de navbar das outras abas */
+  padding-bottom: 50px !important;
 }
