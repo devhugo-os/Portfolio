@@ -12,6 +12,9 @@
 
     const canvases = document.querySelectorAll(".skill-3d-canvas");
     canvases.forEach((canvas) => {
+      if (canvas.dataset.initialized) return; // Evita dupla inicialização
+      canvas.dataset.initialized = "true";
+
       const name = canvas.dataset.name;
       const iconUrl = canvas.dataset.icon;
       const languageColor = (window.Portfolio.Model.languageColors && window.Portfolio.Model.languageColors[name]) || "#42f2b7";
@@ -29,26 +32,39 @@
         const paths = data.paths;
         const group = new THREE.Group();
         
+        // Determinar o viewBox do SVG para escalar dinamicamente as proporções de extrusão e bevel
+        const xml = data.xml;
+        const viewBox = xml?.getAttribute("viewBox");
+        let viewBoxWidth = 512;
+        if (viewBox) {
+          const parts = viewBox.split(" ").map(Number);
+          if (parts.length === 4) {
+            viewBoxWidth = parts[2] || 512;
+          }
+        }
+        const scaleRatio = viewBoxWidth / 512;
+        
         for (let i = 0; i < paths.length; i++) {
           const path = paths[i];
           
-          // Filtrar retângulos e caminhos de fundo de cor sólida (geralmente preto ou cinza escuro)
-          // que ocupam o SVG inteiro e bloqueiam a visibilidade da marca em 3D.
+          // Filtrar apenas retângulos e polígonos escuros/pretos que funcionam como plano de fundo
+          // do SVG original (não removemos tags 'path' para evitar sumir com logos de cor padrão)
           const tagName = path.userData?.node?.tagName;
           const fill = path.userData?.node?.getAttribute("fill");
-          const isBlackOrNearBlack = path.color && (
-            path.color.getHexString() === "000000" || 
-            path.color.getHexString() === "1a1a1a" || 
-            path.color.getHexString() === "111111" ||
-            path.color.getHexString() === "090a08"
+          const isDarkBackground = (tagName === "rect" || tagName === "polygon") && (
+            fill === "#000" || fill === "#000000" || fill === "#1a1a1a" || fill === "#111111" || fill === "#090a08"
           );
-          if ((tagName === "rect" || tagName === "path") && isBlackOrNearBlack) {
-            continue; // Ignora o fundo preto
+          if (isDarkBackground) {
+            continue; // Ignora apenas o fundo escuro
           }
+          
+          // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill
+          const isDefaultBlack = path.color && path.color.getHexString() === "000000";
+          const finalColor = path.color && !isDefaultBlack ? path.color : new THREE.Color(languageColor);
           
           // Estilo metálico e vibrante para a cor do SVG
           const material = new THREE.MeshStandardMaterial({
-            color: path.color || new THREE.Color(languageColor),
+            color: finalColor,
             roughness: 0.15,
             metalness: 0.7,
             side: THREE.DoubleSide,
@@ -59,12 +75,12 @@
           for (let j = 0; j < shapes.length; j++) {
             const shape = shapes[j];
             
-            // Extrusão 3D real da marca
+            // Extrusão 3D real da marca escalada proporcionalmente ao viewBox
             const geometry = new THREE.ExtrudeGeometry(shape, {
-              depth: 18,
+              depth: 18 * scaleRatio,
               bevelEnabled: true,
-              bevelThickness: 1.5,
-              bevelSize: 0.6,
+              bevelThickness: 1.5 * scaleRatio,
+              bevelSize: 0.6 * scaleRatio,
               bevelSegments: 2
             });
             
