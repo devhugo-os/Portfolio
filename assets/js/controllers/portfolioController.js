@@ -1,5 +1,5 @@
 (function () {
-  const { Model, View, HeroScene, OrbitRunner, MemoryStack } = window.Portfolio;
+  const { Model, View, HeroScene, SkillsScene, OrbitRunner, MemoryStack } = window.Portfolio;
 
   const state = {
     repositories: [],
@@ -13,6 +13,7 @@
     View.renderFeatured(Model.featuredExperiences, "spotlight-grid");
 
     setCurrentYear();
+    updateAge();
     initNavigation();
     initCursor();
     initTilt();
@@ -20,6 +21,9 @@
     initRepositories();
 
     HeroScene.init();
+    if (SkillsScene) {
+      SkillsScene.init();
+    }
     OrbitRunner.init();
     MemoryStack.init(Model.skills);
   }
@@ -31,41 +35,172 @@
     }
   }
 
+  const pageOrder = ["inicio", "sobre", "skills", "experiencias", "projetos", "playground", "contato"];
+  let activeIndex = 0;
+  let lastTransitionTime = 0;
+
+  function navigatePage(targetIndex) {
+    if (targetIndex < 0 || targetIndex >= pageOrder.length) return;
+    const currentId = pageOrder[activeIndex];
+    const targetId = pageOrder[targetIndex];
+    if (currentId === targetId) return;
+
+    const currentPage = document.getElementById(currentId);
+    const targetPage = document.getElementById(targetId);
+    if (!currentPage || !targetPage) return;
+
+    const isMovingForward = targetIndex > activeIndex;
+
+    // Reseta classes de transição de todos os outros painéis para evitar bugs visuais
+    pageOrder.forEach((id) => {
+      const page = document.getElementById(id);
+      if (page && id !== currentId && id !== targetId) {
+        page.className = page.className
+          .replace(/\b(slide-left|slide-right|active-page)\b/g, "")
+          .trim();
+      }
+    });
+
+    if (isMovingForward) {
+      targetPage.classList.remove("slide-left", "slide-right", "active-page");
+      targetPage.classList.add("slide-right");
+      
+      // Força reflow do elemento
+      targetPage.offsetHeight;
+
+      currentPage.classList.add("slide-left");
+      currentPage.classList.remove("active-page");
+
+      targetPage.classList.remove("slide-right");
+      targetPage.classList.add("active-page");
+    } else {
+      targetPage.classList.remove("slide-left", "slide-right", "active-page");
+      targetPage.classList.add("slide-left");
+
+      // Força reflow do elemento
+      targetPage.offsetHeight;
+
+      currentPage.classList.add("slide-right");
+      currentPage.classList.remove("active-page");
+
+      targetPage.classList.remove("slide-left");
+      targetPage.classList.add("active-page");
+    }
+
+    activeIndex = targetIndex;
+    lastTransitionTime = Date.now();
+
+    // Atualiza links da navbar
+    const links = document.querySelectorAll(".navbar .nav-link");
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      link.classList.toggle("active", href === `#${targetId}`);
+    });
+
+    // Atualiza hash na barra de endereços silenciosamente
+    history.pushState(null, null, `#${targetId}`);
+  }
+
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
     const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
     const collapse = menu && window.bootstrap ? new bootstrap.Collapse(menu, { toggle: false }) : null;
 
     links.forEach((link) => {
-      link.addEventListener("click", () => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const targetId = link.getAttribute("href").substring(1);
+        const targetIdx = pageOrder.indexOf(targetId);
+        if (targetIdx !== -1) {
+          navigatePage(targetIdx);
+        }
         if (collapse && menu.classList.contains("show")) {
           collapse.hide();
         }
       });
     });
 
-    const sectionMap = links
-      .map((link) => document.querySelector(link.getAttribute("href")))
-      .filter(Boolean);
-
-    if (!("IntersectionObserver" in window)) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (!visible) return;
-
-      links.forEach((link) => {
-        link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`);
+    // Detecta hash inicial da URL
+    const hash = window.location.hash.substring(1);
+    const initialIndex = pageOrder.indexOf(hash);
+    if (initialIndex !== -1) {
+      activeIndex = initialIndex;
+      pageOrder.forEach((id, idx) => {
+        const page = document.getElementById(id);
+        if (page) {
+          page.classList.remove("active-page", "slide-left", "slide-right");
+          if (idx === initialIndex) {
+            page.classList.add("active-page");
+          } else if (idx < initialIndex) {
+            page.classList.add("slide-left");
+          } else {
+            page.classList.add("slide-right");
+          }
+        }
       });
-    }, {
-      rootMargin: "-35% 0px -55% 0px",
-      threshold: [0.05, 0.2, 0.4, 0.7]
-    });
+    }
 
-    sectionMap.forEach((section) => observer.observe(section));
+    // Navegação por scroll (wheel) inteligente
+    window.addEventListener("wheel", (e) => {
+      const activePageEl = document.getElementById(pageOrder[activeIndex]);
+      if (activePageEl && activePageEl.scrollHeight > activePageEl.clientHeight) {
+        const atTop = activePageEl.scrollTop === 0;
+        const atBottom = Math.abs(activePageEl.scrollHeight - activePageEl.clientHeight - activePageEl.scrollTop) < 2;
+        if (e.deltaY < 0 && !atTop) return;
+        if (e.deltaY > 0 && !atBottom) return;
+      }
+
+      const now = Date.now();
+      if (now - lastTransitionTime < 900) return;
+      if (Math.abs(e.deltaY) < 35) return;
+
+      if (e.deltaY > 0) {
+        navigatePage(activeIndex + 1);
+      } else {
+        navigatePage(activeIndex - 1);
+      }
+    }, { passive: true });
+
+    // Navegação por swipe touch
+    let touchStartY = 0;
+    let touchStartX = 0;
+    window.addEventListener("touchstart", (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener("touchend", (e) => {
+      const activePageEl = document.getElementById(pageOrder[activeIndex]);
+      const now = Date.now();
+      if (now - lastTransitionTime < 900) return;
+
+      const diffY = e.changedTouches[0].clientY - touchStartY;
+      const diffX = e.changedTouches[0].clientX - touchStartX;
+
+      if (Math.abs(diffY) > 75 && Math.abs(diffY) > Math.abs(diffX)) {
+        if (activePageEl && activePageEl.scrollHeight > activePageEl.clientHeight) {
+          const atTop = activePageEl.scrollTop === 0;
+          const atBottom = Math.abs(activePageEl.scrollHeight - activePageEl.clientHeight - activePageEl.scrollTop) < 2;
+          if (diffY > 0 && !atTop) return;
+          if (diffY < 0 && !atBottom) return;
+        }
+
+        if (diffY < 0) {
+          navigatePage(activeIndex + 1);
+        } else {
+          navigatePage(activeIndex - 1);
+        }
+      }
+    }, { passive: true });
+
+    // Suporte ao botão voltar/avançar do navegador
+    window.addEventListener("popstate", () => {
+      const hash = window.location.hash.substring(1) || "inicio";
+      const targetIdx = pageOrder.indexOf(hash);
+      if (targetIdx !== -1 && targetIdx !== activeIndex) {
+        navigatePage(targetIdx);
+      }
+    });
   }
 
   function initCursor() {
@@ -202,6 +337,22 @@
     View.renderRepositoryFilters(languages, state.activeLanguage);
     View.renderRepositories(filtered);
     View.setRepositoryStatus(`Mostrando ${filtered.length} de ${state.repositories.length} repositórios públicos de @${Model.githubUser}.`, false);
+  }
+
+  function updateAge() {
+    const ageSpan = document.getElementById("dynamic-age");
+    if (!ageSpan) return;
+    
+    const birthDate = new Date("2009-03-11");
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    ageSpan.textContent = String(age);
   }
 
   document.addEventListener("DOMContentLoaded", init);
