@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio interativo de Hugo Oliveira Silva, desenvolvedor de jogos e full-stack.">
+  <title>Hugo Oliveira Silva | Portfólio Interativo</title>
+  <link rel="icon" href="img/Logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="cursor-core" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true">
+      <i class="bi bi-chevron-left cursor-arrow-left" aria-hidden="true"></i>
+      <i class="bi bi-chevron-right cursor-arrow-right" aria-hidden="true"></i>
+    </div>
+  <canvas id="hero-scene" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Navegação principal">
+      <div class="container">
+        <a class="navbar-brand magnetic-link" href="#inicio" aria-label="Voltar ao início">
+          <img src="img/Logo.png" alt="" width="34" height="34" draggable="false">
+          <span>Hugo</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Abrir menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#sobre">Sobre</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#skills">Skills</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#projetos">Projetos</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#contato">Contato</a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="portfolio-pages-container">
+    <section id="inicio" class="hero-section portfolio-page active-page" aria-labelledby="hero-title">
+      <div class="hero-texture" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="section-kicker">Desenvolvedor de jogos e full-stack</p>
+          <h1 id="hero-title">Hugo Oliveira Silva</h1>
+          <p class="hero-lead">Transformo ideias em experiências imersivas, jogos dinâmicos e interfaces que convidam as pessoas a explorar.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary magnetic-link" href="#projetos">
+              <i class="bi bi-git"></i>
+              Ver repositórios
+            </a>
+          </div>
+          <div class="hero-facts" aria-label="Resumo">
+            <span><strong>2+</strong> anos criando jogos</span>
+            <span><strong>MA</strong> Brasil</span>
+          </div>
+        </div>
+        <div class="hero-portrait" data-tilt>
+          <img src="img/perfil.png" alt="Foto de Hugo Oliveira Silva" draggable="false">
+          <span class="portrait-label">devhugo-os</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="content-section about-section portfolio-page" aria-labelledby="sobre-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Sobre mim</p>
+          <h2 id="sobre-title">Criando jogos, sistemas e experiências com personalidade.</h2>
+        </div>
+        <div class="about-layout">
+          <div class="about-media" data-tilt>
+            <img src="img/perfil2.png" alt="Hugo Oliveira Silva" draggable="false">
+          </div>
+          <div class="about-copy">
+            <p>Este portfólio compartilha meus projetos, experiências e habilidades no desenvolvimento de jogos eletrônicos, refletindo minha paixão em transformar ideias em experiências imersivas e divertidas.</p>
+            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA) e desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e bancos de dados.</p>
+            
+            <div class="rpg-card">
+              <div class="rpg-card-header">
+                <i class="bi bi-shield-shaded"></i> FICHA DE PERSONAGEM
+              </div>
+              <div class="rpg-stats">
+                <div class="rpg-stat"><strong>Classe:</strong> Game Dev & Full-Stack</div>
+                <div class="rpg-stat"><strong>Idade:</strong> <span id="dynamic-age">16</span> anos</div>
+                <div class="rpg-stat"><strong>Nível:</strong> Técnico (IFMA)</div>
+              </div>
+              <div class="rpg-attributes">
+                <div class="rpg-attr">
+                  <span>LÓGICA</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 90%"></div></div>
+                </div>
+                <div class="rpg-attr">
+                  <span>CRIATIVIDADE</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 95%"></div></div>
+                </div>
+                <div class="rpg-attr">
+                  <span>PERFORMANCE</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 85%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-tags" aria-label="Áreas de atuação">
+              <span>Java</span>
+              <span>Python</span>
+              <span>C/C++</span>
+              <span>JavaScript</span>
+              <span>GameMaker</span>
+              <span>Godot</span>
+              <span>Node.js</span>
+              <span>MySQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="content-section skills-section portfolio-page" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Tech Stack</p>
+          <h2 id="skills-title">Linguagens, engines e ferramentas em órbita.</h2>
+        </div>
+        <div id="skills-grid" class="skills-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+
+    <section id="projetos" class="content-section projects-section portfolio-page" aria-labelledby="projetos-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">GitHub ao vivo</p>
+          <h2 id="projetos-title">Repositórios puxados em tempo real do perfil.</h2>
+        </div>
+
+        <ul class="nav nav-pills project-tabs" id="projectTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="github-tab-button" data-bs-toggle="pill" data-bs-target="#github-tab" type="button" role="tab" aria-controls="github-tab" aria-selected="true">
+              <i class="bi bi-github"></i>
+              Repositórios
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="spotlight-tab-button" data-bs-toggle="pill" data-bs-target="#spotlight-tab" type="button" role="tab" aria-controls="spotlight-tab" aria-selected="false">
+              <i class="bi bi-stars"></i>
+              Itch.io e TCC
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="github-tab" role="tabpanel" aria-labelledby="github-tab-button" tabindex="0">
+            <div class="project-toolbar">
+              <label class="search-field" for="repo-search">
+                <i class="bi bi-search"></i>
+                <input id="repo-search" type="search" placeholder="Filtrar repositórios" autocomplete="off">
+              </label>
+              <div id="repo-filters" class="repo-filters" aria-label="Filtros por linguagem"></div>
+              <button id="repo-refresh" class="icon-button magnetic-link" type="button" aria-label="Atualizar repositórios">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </div>
+            <p id="repo-status" class="repo-status" aria-live="polite">Carregando repositórios...</p>
+            <div id="repo-grid" class="repo-grid" aria-live="polite"></div>
+          </div>
+          <div class="tab-pane fade" id="spotlight-tab" role="tabpanel" aria-labelledby="spotlight-tab-button" tabindex="0">
+            <div id="spotlight-grid" class="featured-grid" aria-live="polite"></div>
+          </div>
+          </div>
+      </div>
+    </section>
+
+    <section id="contato" class="content-section contact-section portfolio-page" aria-labelledby="contato-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Contato</p>
+          <h2 id="contato-title">Vamos transformar uma ideia em algo jogável.</h2>
+        </div>
+        <div class="contact-layout">
+          <div class="contact-panel">
+            <img src="img/perfil3.jpg" alt="Hugo Oliveira Silva" draggable="false">
+            <div>
+              <h3>Hugo Oliveira Silva</h3>
+              <p>Maranhão, Brasil</p>
+            </div>
+            <a href="mailto:devhugoo.os@gmail.com"><i class="bi bi-envelope"></i> devhugoo.os@gmail.com</a>
+            <a href="tel:+5599991800441"><i class="bi bi-telephone"></i> (99) 99180-0441</a>
+            <a href="https://github.com/devhugo-os" target="_blank" rel="noreferrer"><i class="bi bi-github"></i> GitHub</a>
+            <a href="https://xchugo.itch.io/" target="_blank" rel="noreferrer"><i class="bi bi-controller"></i> Itch.io</a>
+            <a href="https://www.youtube.com/@hugo_jy" target="_blank" rel="noreferrer"><i class="bi bi-youtube"></i> YouTube</a>
+          </div>
+
+          <form class="contact-form">
+            <label for="nome">Seu nome</label>
+            <input type="text" name="nome" id="nome" required>
+            <label for="email">Seu email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="mensagem">Sua mensagem</label>
+            <textarea name="mensagem" id="mensagem" rows="5" required></textarea>
+            <button type="submit" class="btn btn-primary magnetic-link">
+              <i class="bi bi-send"></i>
+              Enviar mensagem
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-trigger"></div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-hud-left">
+        <span class="hud-indicator"><span class="hud-pulse"></span> STATUS: ONLINE</span>
+      </div>
+      <div class="footer-hud-center">
+        <span>HUGO SILVA // CORE SYSTEM v2.0</span>
+      </div>
+      <div class="footer-hud-right">
+        <span>XP: LEVEL MAX // ENGINE: ACTIVE</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
+  <script src="assets/js/models/portfolioModel.js"></script>
+  <script src="assets/js/views/portfolioView.js"></script>
+  <script src="assets/js/scenes/heroScene.js"></script>
+  <script src="assets/js/scenes/skillsScene.js"></script>
+  <script src="assets/js/controllers/portfolioController.js"></script>
+</body>
+</html>
