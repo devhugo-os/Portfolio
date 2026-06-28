@@ -17,18 +17,36 @@
 
       const name = canvas.dataset.name;
       const iconUrl = canvas.dataset.icon;
-      const languageColor = (window.Portfolio.Model.languageColors && window.Portfolio.Model.languageColors[name]) || "#42f2b7";
+      
+      // Normalização inteligente de cores para chaves com versões (ex: Python 3.13, HTML5)
+      let colorKey = name;
+      if (name.startsWith("C++")) colorKey = "C++";
+      else if (name.startsWith("C")) colorKey = "C";
+      else if (name.startsWith("Python")) colorKey = "Python";
+      else if (name.startsWith("HTML")) colorKey = "HTML";
+      else if (name.startsWith("CSS")) colorKey = "CSS";
+      else if (name.startsWith("Node")) colorKey = "Node";
+
+      const languageColor = (window.Portfolio.Model.languageColors && window.Portfolio.Model.languageColors[colorKey]) || "#42f2b7";
 
       initSingleSkill(canvas, iconUrl, languageColor);
     });
   }
 
   function loadSVGLogo(url, languageColor, onLoaded) {
-    const loader = new THREE.SVGLoader();
-    
-    loader.load(
-      url,
-      function (data) {
+    // Buscar o arquivo SVG de forma textual para remover tags <style> antes do parseamento.
+    // Isso evita problemas com classes CSS em SVGs do Devicons que quebram o visual no SVGLoader.
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error("Erro na resposta HTTP: " + response.status);
+        return response.text();
+      })
+      .then(text => {
+        // Remove blocos de <style>...</style> inteiros e classes
+        const cleanText = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+        
+        const loader = new THREE.SVGLoader();
+        const data = loader.parse(cleanText);
         const paths = data.paths;
         const group = new THREE.Group();
         
@@ -58,10 +76,10 @@
             continue; // Ignora apenas o fundo escuro
           }
           
-          // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill
+          // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill.
           // Se for o Python, aplicamos azul na cobra superior, amarelo na inferior e branco nos olhos
           let finalColor;
-          if (url.includes("python") || url.includes("374016")) {
+          if (url.includes("python")) {
             if (i === 0) finalColor = new THREE.Color("#3776AB"); // Azul oficial
             else if (i === 1) finalColor = new THREE.Color("#FFD343"); // Amarelo oficial
             else finalColor = new THREE.Color("#FFFFFF");
@@ -116,13 +134,11 @@
         pivot.scale.set(scale, -scale, scale);
         
         onLoaded(pivot);
-      },
-      undefined,
-      function (error) {
-        console.warn("Erro ao carregar SVG. Usando fallback procedural para:", url, error);
+      })
+      .catch(error => {
+        console.warn("Erro ao buscar e parsear SVG. Usando fallback procedural para:", url, error);
         onLoaded(createFallbackProceduralModel(languageColor));
-      }
-    );
+      });
   }
 
   function createFallbackProceduralModel(languageColor) {
