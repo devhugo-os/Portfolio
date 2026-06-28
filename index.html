@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfólio interativo de Hugo Oliveira Silva, desenvolvedor de jogos e full-stack.">
+  <meta name="description" content="Portfólio interativo de Hugo Oliveira Silva, desenvolvedor de jogos e software.">
   <title>Hugo Oliveira Silva | Portfólio Interativo</title>
   <link rel="icon" href="img/Logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -599,15 +599,17 @@ body.near-right-edge .cursor-ring {
 }
 
 .about-copy {
-  color: rgba(245, 242, 232, 0.84);
+  color: #ffffff !important;
   font-size: 1rem;
   line-height: 1.78;
 }
 
 .about-copy p {
-  margin: 0 0 10px;
-  font-size: 0.94rem;
-  line-height: 1.6;
+  margin: 0 0 12px;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95) !important;
 }
 
 .about-tags {
@@ -642,8 +644,8 @@ body.near-right-edge .cursor-ring {
 
 .skill-card {
   position: relative;
-  min-height: 156px;
-  padding: 14px;
+  height: 235px !important; /* Altura fixa garantida */
+  padding: 16px;
   overflow: hidden;
   border: 1px solid rgba(245, 242, 232, 0.18);
   border-radius: var(--radius);
@@ -655,6 +657,10 @@ body.near-right-edge .cursor-ring {
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
               border-color 0.3s ease, 
               box-shadow 0.3s ease;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
 }
 
 .skill-card::before {
@@ -731,7 +737,8 @@ body.near-right-edge .cursor-ring {
 
 .skill-experience-badge {
   display: inline-block !important;
-  margin-top: 10px !important;
+  margin-top: auto !important;
+  margin-bottom: 2px !important;
   padding: 4px 10px !important;
   border-radius: var(--radius) !important;
   border: 1px solid var(--skill-color, var(--mint)) !important;
@@ -769,7 +776,7 @@ body.near-right-edge .cursor-ring {
 
 .featured-card {
   position: relative;
-  height: 280px !important; /* Altura fixa garantida para alinhar com repositórios */
+  height: 340px !important; /* Altura fixa garantida para alinhar com repositórios e dar espaço */
   padding: 16px;
   border: 1px solid rgba(245, 242, 232, 0.17);
   border-radius: var(--radius);
@@ -806,7 +813,7 @@ body.near-right-edge .cursor-ring {
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
-  height: 280px !important; /* Altura fixa garantida */
+  height: 340px !important; /* Altura aumentada para evitar corte de descrições longas */
 }
 
 .repo-footer {
@@ -1501,7 +1508,27 @@ img {
   }
 
   .navbar-collapse {
-    padding: 12px 0 16px;
+    padding: 16px 20px !important;
+    background: rgba(9, 10, 8, 0.96) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    border-radius: var(--radius) !important;
+    margin-top: 10px !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  .navbar-toggler {
+    border: 1px solid rgba(66, 242, 183, 0.3) !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: 0 0 10px rgba(66, 242, 183, 0.4) !important;
+  }
+  
+  .navbar-toggler-icon {
+    filter: invert(1) hue-rotate(90deg) brightness(1.2) !important;
   }
 
   .hero-grid,
@@ -1605,10 +1632,10 @@ img {
   }
 }
 
-/* Comprime ligeiramente a seção de contato verticalmente */
+/* Ajuste fino da seção de contato verticalmente */
 .contact-section {
-  padding-top: 80px !important;
-  padding-bottom: 80px !important;
+  padding-top: 120px !important; /* Mesma distância e alinhamento de navbar das outras abas */
+  padding-bottom: 50px !important;
 }
 
 </style>
@@ -1648,7 +1675,7 @@ img {
       <div class="hero-texture" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="section-kicker">Desenvolvedor de jogos e full-stack</p>
+          <p class="section-kicker">Desenvolvedor de jogos</p>
           <h1 id="hero-title">Hugo Oliveira Silva</h1>
           <p class="hero-lead">Transformo ideias em experiências imersivas, jogos dinâmicos e interfaces que convidam as pessoas a explorar.</p>
           <div class="hero-actions">
@@ -1681,14 +1708,14 @@ img {
           </div>
           <div class="about-copy">
             <p>Este portfólio compartilha meus projetos, experiências e habilidades no desenvolvimento de jogos eletrônicos, refletindo minha paixão em transformar ideias em experiências imersivas e divertidas.</p>
-            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA) e desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e bancos de dados.</p>
+            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA) e desenvolvedor de jogos, com sólida experiência em diversas game engines, linguagens de programação e bancos de dados.</p>
             
             <div class="rpg-card">
               <div class="rpg-card-header">
                 <i class="bi bi-shield-shaded"></i> FICHA DE PERSONAGEM
               </div>
               <div class="rpg-stats">
-                <div class="rpg-stat"><strong>Classe:</strong> Game Dev & Full-Stack</div>
+                <div class="rpg-stat"><strong>Classe:</strong> Game Dev</div>
                 <div class="rpg-stat"><strong>Idade:</strong> <span id="dynamic-age">16</span> anos</div>
                 <div class="rpg-stat"><strong>Nível:</strong> Técnico (IFMA)</div>
               </div>
@@ -1714,9 +1741,7 @@ img {
               <span>C/C++</span>
               <span>JavaScript</span>
               <span>GameMaker</span>
-              <span>Godot</span>
               <span>Node.js</span>
-              <span>MySQL</span>
             </div>
           </div>
         </div>
@@ -1846,42 +1871,50 @@ img {
 
   const skillIcons = {
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-    python: "https://www.svgrepo.com/show/374016/python.svg",
+    python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
+    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
-    godot: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/godotengine.svg",
-    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg",
-    mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-    netbeans: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg",
-    vscode: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/visualstudiocode.svg"
+    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
 
   const skills = [
-    { name: "Java", detail: "Linguagem de programação", startYear: 2024, experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startYear: 2024, icon: skillIcons.python },
-    { name: "C", detail: "Fundamentos e performance", startYear: 2024, icon: skillIcons.c },
-    { name: "C++", detail: "Estruturas e jogos", startYear: 2024, experience: "Base em programação", icon: skillIcons.cpp },
-    { name: "JavaScript", detail: "Interfaces e interações web", startYear: 2024, experience: "Full-stack e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", startYear: 2024, experience: "Web", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", startYear: 2024, experience: "Web", icon: skillIcons.css },
-    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startYear: 2024, icon: skillIcons.gamemaker },
-    { name: "Godot", detail: "Prototipagem e gameplay", startYear: 2024, icon: skillIcons.godot },
-    { name: "Node.js", detail: "Back-end e APIs", startYear: 2025, icon: skillIcons.node },
-    { name: "MySQL", detail: "Banco de dados relacional", startYear: 2025, icon: skillIcons.mysql },
-    { name: "NetBeans", detail: "IDE para Java", startYear: 2025, icon: skillIcons.netbeans },
-    { name: "VS Code", detail: "Editor principal", startYear: 2023, experience: "Fluxo diário", icon: skillIcons.vscode }
+    { name: "Java", detail: "Linguagem de programação", startDate: "2024-03-11", experience: "Base para sistemas e lógica", icon: skillIcons.java },
+    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", icon: skillIcons.python },
+    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", icon: skillIcons.c },
+    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Base em programação", icon: skillIcons.cpp },
+    { name: "JavaScript", detail: "Interfaces e interações web", startDate: "2024-03-11", experience: "Interatividade e front-end", icon: skillIcons.javascript },
+    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Web", icon: skillIcons.html },
+    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Web", icon: skillIcons.css },
+    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", icon: skillIcons.gamemaker },
+    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", icon: skillIcons.node }
   ];
 
-  // Calcula a experiência dinamicamente baseada no ano atual
-  const currentYear = new Date().getFullYear();
+  // Calcula a experiência dinamicamente baseada na data de início de cada tecnologia
   skills.forEach(skill => {
-    if (skill.startYear) {
-      const years = currentYear - skill.startYear;
-      const text = years <= 1 ? `${years} ano de exp.` : `${years} anos de exp.`;
+    if (skill.startDate) {
+      const start = new Date(skill.startDate);
+      const today = new Date();
+      let years = today.getFullYear() - start.getFullYear();
+      let months = today.getMonth() - start.getMonth();
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+      
+      let text = "";
+      if (years > 0) {
+        text += years === 1 ? "1 ano" : `${years} anos`;
+      }
+      if (months > 0) {
+        text += text ? ` e ${months} ${months === 1 ? 'mês' : 'meses'}` : `${months} ${months === 1 ? 'mês' : 'meses'}`;
+      }
+      if (!text) text = "Recente";
+      else text += " de exp.";
+      
       if (skill.experience) {
         skill.experience = `${skill.experience} (${text})`;
       } else {
@@ -2097,7 +2130,7 @@ img {
       const tags = createElement("div", "featured-tags");
       item.tags.forEach((tag) => tags.appendChild(createElement("span", "", tag)));
 
-      const link = createElement("a");
+      const link = createElement("a", "btn btn-primary magnetic-link");
       link.href = item.url;
       link.target = "_blank";
       link.rel = "noreferrer";
@@ -2168,7 +2201,7 @@ img {
         topics.appendChild(tag);
       });
 
-      const link = createElement("a");
+      const link = createElement("a", "btn btn-primary magnetic-link");
       link.href = repo.url;
       link.target = "_blank";
       link.rel = "noreferrer";
@@ -2411,18 +2444,36 @@ img {
 
       const name = canvas.dataset.name;
       const iconUrl = canvas.dataset.icon;
-      const languageColor = (window.Portfolio.Model.languageColors && window.Portfolio.Model.languageColors[name]) || "#42f2b7";
+      
+      // Normalização inteligente de cores para chaves com versões (ex: Python 3.13, HTML5)
+      let colorKey = name;
+      if (name.startsWith("C++")) colorKey = "C++";
+      else if (name.startsWith("C")) colorKey = "C";
+      else if (name.startsWith("Python")) colorKey = "Python";
+      else if (name.startsWith("HTML")) colorKey = "HTML";
+      else if (name.startsWith("CSS")) colorKey = "CSS";
+      else if (name.startsWith("Node")) colorKey = "Node";
+
+      const languageColor = (window.Portfolio.Model.languageColors && window.Portfolio.Model.languageColors[colorKey]) || "#42f2b7";
 
       initSingleSkill(canvas, iconUrl, languageColor);
     });
   }
 
   function loadSVGLogo(url, languageColor, onLoaded) {
-    const loader = new THREE.SVGLoader();
-    
-    loader.load(
-      url,
-      function (data) {
+    // Buscar o arquivo SVG de forma textual para remover tags <style> antes do parseamento.
+    // Isso evita problemas com classes CSS em SVGs do Devicons que quebram o visual no SVGLoader.
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error("Erro na resposta HTTP: " + response.status);
+        return response.text();
+      })
+      .then(text => {
+        // Remove blocos de <style>...</style> inteiros e classes
+        const cleanText = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+        
+        const loader = new THREE.SVGLoader();
+        const data = loader.parse(cleanText);
         const paths = data.paths;
         const group = new THREE.Group();
         
@@ -2452,10 +2503,10 @@ img {
             continue; // Ignora apenas o fundo escuro
           }
           
-          // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill
+          // Se o preenchimento for preto/escuro padrão do Simple Icons, usamos a cor do tema da skill.
           // Se for o Python, aplicamos azul na cobra superior, amarelo na inferior e branco nos olhos
           let finalColor;
-          if (url.includes("python") || url.includes("374016")) {
+          if (url.includes("python")) {
             if (i === 0) finalColor = new THREE.Color("#3776AB"); // Azul oficial
             else if (i === 1) finalColor = new THREE.Color("#FFD343"); // Amarelo oficial
             else finalColor = new THREE.Color("#FFFFFF");
@@ -2510,13 +2561,11 @@ img {
         pivot.scale.set(scale, -scale, scale);
         
         onLoaded(pivot);
-      },
-      undefined,
-      function (error) {
-        console.warn("Erro ao carregar SVG. Usando fallback procedural para:", url, error);
+      })
+      .catch(error => {
+        console.warn("Erro ao buscar e parsear SVG. Usando fallback procedural para:", url, error);
         onLoaded(createFallbackProceduralModel(languageColor));
-      }
-    );
+      });
   }
 
   function createFallbackProceduralModel(languageColor) {
@@ -2803,6 +2852,8 @@ img {
     }
 
     window.addEventListener("pointerdown", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
+      
       // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
       
@@ -2817,6 +2868,8 @@ img {
     });
 
     window.addEventListener("pointermove", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
+      
       const width = window.innerWidth;
       nearLeftEdge = e.clientX < edgeThreshold && activeIndex > 0;
       nearRightEdge = e.clientX > (width - edgeThreshold) && activeIndex < pageOrder.length - 1;
@@ -2898,6 +2951,7 @@ img {
     });
 
     window.addEventListener("pointerup", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
       isDragReady = false;
       if (!isDragging) return;
       isDragging = false;
