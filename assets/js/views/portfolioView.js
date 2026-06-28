@@ -46,12 +46,17 @@
       logo.appendChild(canvas);
 
       const title = createElement("h3", "", skill.name);
-      const detail = createElement("p", "", skill.detail);
+      const detail = createElement("p", "skill-detail", skill.detail);
       
       article.append(logo, title, detail);
       
       if (skill.experience) {
-        const experience = createElement("span", "skill-experience-badge", skill.experience);
+        const expDesc = createElement("p", "skill-exp-desc", skill.experience);
+        article.appendChild(expDesc);
+      }
+      
+      if (skill.duration) {
+        const experience = createElement("span", "skill-experience-badge", `Exp: ${skill.duration}`);
         article.appendChild(experience);
       }
       return article;
