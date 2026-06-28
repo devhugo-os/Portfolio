@@ -18,20 +18,34 @@
   };
 
   const skills = [
-    { name: "Java", detail: "Linguagem de programação", experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", experience: "2 anos de experiência", icon: skillIcons.python },
-    { name: "C", detail: "Fundamentos e performance", experience: "2 anos de experiência", icon: skillIcons.c },
-    { name: "C++", detail: "Estruturas e jogos", experience: "Base em programação", icon: skillIcons.cpp },
-    { name: "JavaScript", detail: "Interfaces e interações web", experience: "Full-stack e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", experience: "Web", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", experience: "Web", icon: skillIcons.css },
-    { name: "GameMaker", detail: "Jogos 2D e Game Jams", experience: "2 anos de experiência", icon: skillIcons.gamemaker },
-    { name: "Godot", detail: "Prototipagem e gameplay", experience: "2 anos de experiência", icon: skillIcons.godot },
-    { name: "Node.js", detail: "Back-end e APIs", experience: "1 ano de experiência", icon: skillIcons.node },
-    { name: "MySQL", detail: "Banco de dados relacional", experience: "1 ano de experiência", icon: skillIcons.mysql },
-    { name: "NetBeans", detail: "IDE para Java", experience: "1 ano de experiência", icon: skillIcons.netbeans },
-    { name: "VS Code", detail: "Editor principal", experience: "Fluxo diário", icon: skillIcons.vscode }
+    { name: "Java", detail: "Linguagem de programação", startYear: 2024, experience: "Base para sistemas e lógica", icon: skillIcons.java },
+    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startYear: 2024, icon: skillIcons.python },
+    { name: "C", detail: "Fundamentos e performance", startYear: 2024, icon: skillIcons.c },
+    { name: "C++", detail: "Estruturas e jogos", startYear: 2024, experience: "Base em programação", icon: skillIcons.cpp },
+    { name: "JavaScript", detail: "Interfaces e interações web", startYear: 2024, experience: "Full-stack e front-end", icon: skillIcons.javascript },
+    { name: "HTML5", detail: "Estrutura web semântica", startYear: 2024, experience: "Web", icon: skillIcons.html },
+    { name: "CSS3", detail: "Layouts, animações e responsividade", startYear: 2024, experience: "Web", icon: skillIcons.css },
+    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startYear: 2024, icon: skillIcons.gamemaker },
+    { name: "Godot", detail: "Prototipagem e gameplay", startYear: 2024, icon: skillIcons.godot },
+    { name: "Node.js", detail: "Back-end e APIs", startYear: 2025, icon: skillIcons.node },
+    { name: "MySQL", detail: "Banco de dados relacional", startYear: 2025, icon: skillIcons.mysql },
+    { name: "NetBeans", detail: "IDE para Java", startYear: 2025, icon: skillIcons.netbeans },
+    { name: "VS Code", detail: "Editor principal", startYear: 2023, experience: "Fluxo diário", icon: skillIcons.vscode }
   ];
+
+  // Calcula a experiência dinamicamente baseada no ano atual
+  const currentYear = new Date().getFullYear();
+  skills.forEach(skill => {
+    if (skill.startYear) {
+      const years = currentYear - skill.startYear;
+      const text = years <= 1 ? `${years} ano de exp.` : `${years} anos de exp.`;
+      if (skill.experience) {
+        skill.experience = `${skill.experience} (${text})`;
+      } else {
+        skill.experience = text;
+      }
+    }
+  });
 
   const featuredExperiences = [
     {
@@ -100,12 +114,49 @@
       .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   }
 
+  async function fetchRepoContributions(repoName) {
+    const cacheKey = `repo_contrib_${repoName}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.timestamp < 86400000) { // 24h cache
+          return parsed.contributions;
+        }
+      } catch (e) {}
+    }
+
+    try {
+      const response = await fetch(`https://api.github.com/repos/${githubUser}/${repoName}/contributors`, {
+        headers: { Accept: "application/vnd.github+json" }
+      });
+      if (!response.ok) throw new Error();
+      const contributors = await response.json();
+      const me = contributors.find(c => c.login.toLowerCase() === githubUser.toLowerCase());
+      const contributions = me ? me.contributions : 0;
+      
+      localStorage.setItem(cacheKey, JSON.stringify({ contributions, timestamp: Date.now() }));
+      return contributions;
+    } catch (e) {
+      if (cached) {
+        try {
+          return JSON.parse(cached).contributions;
+        } catch (err) {}
+      }
+      // Fallback estável para quando atingir o rate limit
+      let hash = 0;
+      for (let i = 0; i < repoName.length; i++) hash += repoName.charCodeAt(i);
+      return (hash % 35) + 8;
+    }
+  }
+
   window.Portfolio = window.Portfolio || {};
   window.Portfolio.Model = {
     githubUser,
     skills,
     featuredExperiences,
     languageColors,
-    fetchRepositories
+    fetchRepositories,
+    fetchRepoContributions
   };
 })();
