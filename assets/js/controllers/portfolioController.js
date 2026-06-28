@@ -174,6 +174,8 @@
     }
 
     window.addEventListener("pointerdown", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
+      
       // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
       
@@ -188,6 +190,8 @@
     });
 
     window.addEventListener("pointermove", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
+      
       const width = window.innerWidth;
       nearLeftEdge = e.clientX < edgeThreshold && activeIndex > 0;
       nearRightEdge = e.clientX > (width - edgeThreshold) && activeIndex < pageOrder.length - 1;
@@ -269,6 +273,7 @@
     });
 
     window.addEventListener("pointerup", (e) => {
+      if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
       isDragReady = false;
       if (!isDragging) return;
       isDragging = false;
