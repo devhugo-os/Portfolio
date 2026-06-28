@@ -47,9 +47,13 @@
 
       const title = createElement("h3", "", skill.name);
       const detail = createElement("p", "", skill.detail);
-      const experience = createElement("p", "", skill.experience);
-
-      article.append(logo, title, detail, experience);
+      
+      article.append(logo, title, detail);
+      
+      if (skill.experience) {
+        const experience = createElement("span", "skill-experience-badge", skill.experience);
+        article.appendChild(experience);
+      }
       return article;
     });
 
