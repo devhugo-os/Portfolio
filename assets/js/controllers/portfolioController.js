@@ -1,5 +1,5 @@
 (function () {
-  const { Model, View, HeroScene, SkillsScene, OrbitRunner, MemoryStack } = window.Portfolio;
+  const { Model, View, HeroScene, SkillsScene } = window.Portfolio;
 
   const state = {
     repositories: [],
@@ -9,7 +9,6 @@
 
   function init() {
     View.renderSkills(Model.skills);
-    View.renderFeatured(Model.featuredExperiences, "featured-grid");
     View.renderFeatured(Model.featuredExperiences, "spotlight-grid");
 
     setCurrentYear();
@@ -24,8 +23,6 @@
     if (SkillsScene) {
       SkillsScene.init();
     }
-    OrbitRunner.init();
-    MemoryStack.init(Model.skills);
   }
 
   function setCurrentYear() {
@@ -35,7 +32,7 @@
     }
   }
 
-  const pageOrder = ["inicio", "sobre", "skills", "experiencias", "projetos", "playground", "contato"];
+  const pageOrder = ["inicio", "sobre", "skills", "projetos", "contato"];
   let activeIndex = 0;
   let lastTransitionTime = 0;
 
@@ -145,8 +142,13 @@
     let dragStartX = 0;
     let dragStartY = 0;
 
+    // Detecção das bordas da tela para chevrons
+    const edgeThreshold = 100;
+    let nearLeftEdge = false;
+    let nearRightEdge = false;
+
     window.addEventListener("mousedown", (e) => {
-      if (e.target.closest("a, button, input, textarea, select, canvas, .memory-card, .skill-card, .repo-card, .featured-card")) return;
+      if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
       isDragging = true;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
@@ -168,6 +170,37 @@
         } else {
           navigatePage(activeIndex - 1); // Arrastar da esquerda para a direita volta
         }
+      }
+    });
+
+    // Detectar mouse perto das paredes laterais e mudar cursor
+    window.addEventListener("mousemove", (e) => {
+      const width = window.innerWidth;
+      nearLeftEdge = e.clientX < edgeThreshold && activeIndex > 0;
+      nearRightEdge = e.clientX > (width - edgeThreshold) && activeIndex < pageOrder.length - 1;
+
+      if (nearLeftEdge) {
+        document.body.classList.add("near-left-edge");
+        document.body.classList.remove("near-right-edge");
+      } else if (nearRightEdge) {
+        document.body.classList.add("near-right-edge");
+        document.body.classList.remove("near-left-edge");
+      } else {
+        document.body.classList.remove("near-left-edge", "near-right-edge");
+      }
+    });
+
+    // Click perto das bordas para avançar ou voltar
+    window.addEventListener("click", (e) => {
+      if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
+      
+      const now = Date.now();
+      if (now - lastTransitionTime < 900) return;
+
+      if (nearLeftEdge) {
+        navigatePage(activeIndex - 1);
+      } else if (nearRightEdge) {
+        navigatePage(activeIndex + 1);
       }
     });
 
@@ -223,13 +256,13 @@
     }, { passive: true });
 
     document.addEventListener("pointerover", (event) => {
-      if (event.target.closest("a, button, input, textarea, .memory-card, .skill-card")) {
+      if (event.target.closest("a, button, input, textarea, .skill-card")) {
         document.body.classList.add("cursor-active");
       }
     });
 
     document.addEventListener("pointerout", (event) => {
-      if (event.target.closest("a, button, input, textarea, .memory-card, .skill-card")) {
+      if (event.target.closest("a, button, input, textarea, .skill-card")) {
         document.body.classList.remove("cursor-active");
       }
     });
