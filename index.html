@@ -16,6 +16,7 @@
 <body>
   <div class="cursor-core" aria-hidden="true"></div>
   <div class="cursor-ring" aria-hidden="true"></div>
+  <canvas id="hero-scene" aria-hidden="true"></canvas>
 
   <header class="site-header">
     <nav class="navbar navbar-expand-lg" aria-label="Navegação principal">
@@ -41,9 +42,8 @@
     </nav>
   </header>
 
-  <main>
-    <section id="inicio" class="hero-section" aria-labelledby="hero-title">
-      <canvas id="hero-scene" aria-hidden="true"></canvas>
+  <main class="portfolio-pages-container">
+    <section id="inicio" class="hero-section portfolio-page active-page" aria-labelledby="hero-title">
       <div class="hero-texture" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -73,7 +73,7 @@
       </div>
     </section>
 
-    <section id="sobre" class="content-section about-section" aria-labelledby="sobre-title">
+    <section id="sobre" class="content-section about-section portfolio-page" aria-labelledby="sobre-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Sobre mim</p>
@@ -85,7 +85,7 @@
           </div>
           <div class="about-copy">
             <p>Este portfólio compartilha meus projetos, experiências e habilidades no desenvolvimento de jogos eletrônicos, refletindo minha paixão em transformar ideias em experiências imersivas e divertidas.</p>
-            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA), tenho 16 anos, sou desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e gestão de bancos de dados.</p>
+            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA), tenho <span id="dynamic-age">16</span> anos, sou desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e gestão de bancos de dados.</p>
             <p>Gosto especialmente de criar jogos divertidos e dinâmicos, com foco em performance e experiência do usuário.</p>
             <div class="about-tags" aria-label="Áreas de atuação">
               <span>Java</span>
@@ -102,7 +102,7 @@
       </div>
     </section>
 
-    <section id="skills" class="content-section skills-section" aria-labelledby="skills-title">
+    <section id="skills" class="content-section skills-section portfolio-page" aria-labelledby="skills-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Stack 3D</p>
@@ -112,7 +112,7 @@
       </div>
     </section>
 
-    <section id="experiencias" class="content-section highlights-section" aria-labelledby="experiencias-title">
+    <section id="experiencias" class="content-section highlights-section portfolio-page" aria-labelledby="experiencias-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Destaques</p>
@@ -122,7 +122,7 @@
       </div>
     </section>
 
-    <section id="projetos" class="content-section projects-section" aria-labelledby="projetos-title">
+    <section id="projetos" class="content-section projects-section portfolio-page" aria-labelledby="projetos-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">GitHub ao vivo</p>
@@ -166,30 +166,16 @@
       </div>
     </section>
 
-    <section id="playground" class="content-section playground-section" aria-labelledby="playground-title">
+    <section id="playground" class="content-section playground-section portfolio-page" aria-labelledby="playground-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Mini-games</p>
           <h2 id="playground-title">Um playground novo para testar reflexo e memória.</h2>
         </div>
 
-        <ul class="nav nav-pills playground-tabs" id="playgroundTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="orbit-tab-button" data-bs-toggle="pill" data-bs-target="#orbit-tab" type="button" role="tab" aria-controls="orbit-tab" aria-selected="true">
-              <i class="bi bi-rocket-takeoff"></i>
-              Orbit Runner
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="memory-tab-button" data-bs-toggle="pill" data-bs-target="#memory-tab" type="button" role="tab" aria-controls="memory-tab" aria-selected="false">
-              <i class="bi bi-grid-3x3-gap"></i>
-              Memory Stack
-            </button>
-          </li>
-        </ul>
-
-        <div class="tab-content playground-content">
-          <div class="tab-pane fade show active" id="orbit-tab" role="tabpanel" aria-labelledby="orbit-tab-button" tabindex="0">
+        <div class="playground-layout">
+          <div class="game-wrapper">
+            <h3 class="game-title"><i class="bi bi-rocket-takeoff"></i> Orbit Runner</h3>
             <div class="game-shell orbit-shell">
               <div class="game-hud">
                 <span>Pontos <strong id="orbit-score">0</strong></span>
@@ -210,7 +196,8 @@
             </div>
           </div>
 
-          <div class="tab-pane fade" id="memory-tab" role="tabpanel" aria-labelledby="memory-tab-button" tabindex="0">
+          <div class="game-wrapper">
+            <h3 class="game-title"><i class="bi bi-grid-3x3-gap"></i> Memory Stack</h3>
             <div class="game-shell memory-shell">
               <div class="game-hud">
                 <span>Movimentos <strong id="memory-moves">0</strong></span>
@@ -230,7 +217,7 @@
       </div>
     </section>
 
-    <section id="contato" class="content-section contact-section" aria-labelledby="contato-title">
+    <section id="contato" class="content-section contact-section portfolio-page" aria-labelledby="contato-title">
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Contato</p>
@@ -282,6 +269,7 @@
   <script src="assets/js/models/portfolioModel.js"></script>
   <script src="assets/js/views/portfolioView.js"></script>
   <script src="assets/js/scenes/heroScene.js"></script>
+  <script src="assets/js/scenes/skillsScene.js"></script>
   <script src="assets/js/games/orbitRunner.js"></script>
   <script src="assets/js/games/memoryStack.js"></script>
   <script src="assets/js/controllers/portfolioController.js"></script>
