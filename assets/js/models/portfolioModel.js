@@ -8,42 +8,50 @@
 
   const skillIcons = {
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-    python: "https://www.svgrepo.com/show/374016/python.svg",
+    python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
+    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
-    godot: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/godotengine.svg",
-    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg",
-    mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-    netbeans: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg",
-    vscode: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/visualstudiocode.svg"
+    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
 
   const skills = [
-    { name: "Java", detail: "Linguagem de programação", startYear: 2024, experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startYear: 2024, icon: skillIcons.python },
-    { name: "C", detail: "Fundamentos e performance", startYear: 2024, icon: skillIcons.c },
-    { name: "C++", detail: "Estruturas e jogos", startYear: 2024, experience: "Base em programação", icon: skillIcons.cpp },
-    { name: "JavaScript", detail: "Interfaces e interações web", startYear: 2024, experience: "Full-stack e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", startYear: 2024, experience: "Web", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", startYear: 2024, experience: "Web", icon: skillIcons.css },
-    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startYear: 2024, icon: skillIcons.gamemaker },
-    { name: "Godot", detail: "Prototipagem e gameplay", startYear: 2024, icon: skillIcons.godot },
-    { name: "Node.js", detail: "Back-end e APIs", startYear: 2025, icon: skillIcons.node },
-    { name: "MySQL", detail: "Banco de dados relacional", startYear: 2025, icon: skillIcons.mysql },
-    { name: "NetBeans", detail: "IDE para Java", startYear: 2025, icon: skillIcons.netbeans },
-    { name: "VS Code", detail: "Editor principal", startYear: 2023, experience: "Fluxo diário", icon: skillIcons.vscode }
+    { name: "Java", detail: "Linguagem de programação", startDate: "2024-03-11", experience: "Base para sistemas e lógica", icon: skillIcons.java },
+    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", icon: skillIcons.python },
+    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", icon: skillIcons.c },
+    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Base em programação", icon: skillIcons.cpp },
+    { name: "JavaScript", detail: "Interfaces e interações web", startDate: "2024-03-11", experience: "Interatividade e front-end", icon: skillIcons.javascript },
+    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Web", icon: skillIcons.html },
+    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Web", icon: skillIcons.css },
+    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", icon: skillIcons.gamemaker },
+    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", icon: skillIcons.node }
   ];
 
-  // Calcula a experiência dinamicamente baseada no ano atual
-  const currentYear = new Date().getFullYear();
+  // Calcula a experiência dinamicamente baseada na data de início de cada tecnologia
   skills.forEach(skill => {
-    if (skill.startYear) {
-      const years = currentYear - skill.startYear;
-      const text = years <= 1 ? `${years} ano de exp.` : `${years} anos de exp.`;
+    if (skill.startDate) {
+      const start = new Date(skill.startDate);
+      const today = new Date();
+      let years = today.getFullYear() - start.getFullYear();
+      let months = today.getMonth() - start.getMonth();
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+      
+      let text = "";
+      if (years > 0) {
+        text += years === 1 ? "1 ano" : `${years} anos`;
+      }
+      if (months > 0) {
+        text += text ? ` e ${months} ${months === 1 ? 'mês' : 'meses'}` : `${months} ${months === 1 ? 'mês' : 'meses'}`;
+      }
+      if (!text) text = "Recente";
+      else text += " de exp.";
+      
       if (skill.experience) {
         skill.experience = `${skill.experience} (${text})`;
       } else {
