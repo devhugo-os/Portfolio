@@ -140,55 +140,57 @@
       });
     }
 
-    // Navegação por scroll (wheel) inteligente
-    window.addEventListener("wheel", (e) => {
-      const activePageEl = document.getElementById(pageOrder[activeIndex]);
-      if (activePageEl && activePageEl.scrollHeight > activePageEl.clientHeight) {
-        const atTop = activePageEl.scrollTop === 0;
-        const atBottom = Math.abs(activePageEl.scrollHeight - activePageEl.clientHeight - activePageEl.scrollTop) < 2;
-        if (e.deltaY < 0 && !atTop) return;
-        if (e.deltaY > 0 && !atBottom) return;
+    // Navegação por arrasto horizontal do mouse (drag)
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    window.addEventListener("mousedown", (e) => {
+      if (e.target.closest("a, button, input, textarea, select, canvas, .memory-card, .skill-card, .repo-card, .featured-card")) return;
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const diffX = e.clientX - dragStartX;
+      const diffY = e.clientY - dragStartY;
+
+      if (Math.abs(diffX) > 90 && Math.abs(diffX) > Math.abs(diffY)) {
+        const now = Date.now();
+        if (now - lastTransitionTime < 900) return;
+
+        if (diffX < 0) {
+          navigatePage(activeIndex + 1); // Arrastar da direita para a esquerda avança
+        } else {
+          navigatePage(activeIndex - 1); // Arrastar da esquerda para a direita volta
+        }
       }
+    });
 
-      const now = Date.now();
-      if (now - lastTransitionTime < 900) return;
-      if (Math.abs(e.deltaY) < 35) return;
-
-      if (e.deltaY > 0) {
-        navigatePage(activeIndex + 1);
-      } else {
-        navigatePage(activeIndex - 1);
-      }
-    }, { passive: true });
-
-    // Navegação por swipe touch
-    let touchStartY = 0;
+    // Navegação por swipe touch horizontal
     let touchStartX = 0;
+    let touchStartY = 0;
     window.addEventListener("touchstart", (e) => {
-      touchStartY = e.touches[0].clientY;
       touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener("touchend", (e) => {
-      const activePageEl = document.getElementById(pageOrder[activeIndex]);
       const now = Date.now();
       if (now - lastTransitionTime < 900) return;
 
-      const diffY = e.changedTouches[0].clientY - touchStartY;
       const diffX = e.changedTouches[0].clientX - touchStartX;
+      const diffY = e.changedTouches[0].clientY - touchStartY;
 
-      if (Math.abs(diffY) > 75 && Math.abs(diffY) > Math.abs(diffX)) {
-        if (activePageEl && activePageEl.scrollHeight > activePageEl.clientHeight) {
-          const atTop = activePageEl.scrollTop === 0;
-          const atBottom = Math.abs(activePageEl.scrollHeight - activePageEl.clientHeight - activePageEl.scrollTop) < 2;
-          if (diffY > 0 && !atTop) return;
-          if (diffY < 0 && !atBottom) return;
-        }
-
-        if (diffY < 0) {
-          navigatePage(activeIndex + 1);
+      if (Math.abs(diffX) > 75 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          navigatePage(activeIndex + 1); // Swipe da direita para a esquerda avança
         } else {
-          navigatePage(activeIndex - 1);
+          navigatePage(activeIndex - 1); // Swipe da esquerda para a direita volta
         }
       }
     }, { passive: true });
