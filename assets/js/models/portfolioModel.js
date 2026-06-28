@@ -8,15 +8,15 @@
 
   const skillIcons = {
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-    python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    python: "https://www.svgrepo.com/show/374016/python.svg",
     c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
     cpp: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
     javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     html: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
     css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    gamemaker: "https://www.svgrepo.com/show/373617/gamemaker.svg",
+    gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
     godot: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg",
-    node: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg",
+    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg",
     mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
     netbeans: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg",
     vscode: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"

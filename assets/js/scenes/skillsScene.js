@@ -116,10 +116,16 @@
 
   function initSingleSkill(canvas, iconUrl, languageColor) {
     let renderer, scene, camera, modelGroup;
-    let animationFrameId = null;
-    let isVisible = false;
     let rotationSpeed = 0.015;
     let targetRotationSpeed = 0.015;
+    let isHovered = false;
+    let hoverTargetY = 0;
+
+    // Injeta a cor correspondente no CSS do card para efeitos de brilho neon
+    const card = canvas.closest(".skill-card");
+    if (card) {
+      card.style.setProperty("--skill-color", languageColor);
+    }
 
     // Configuração de cena
     scene = new THREE.Scene();
@@ -159,49 +165,42 @@
     scene.add(ambientLight, dirLight, glowLight);
 
     // Efeito hover na carta da skill
-    const card = canvas.closest(".skill-card");
     if (card) {
       card.addEventListener("pointerenter", () => {
-        targetRotationSpeed = 0; // Para de girar no hover
+        isHovered = true;
+        if (modelGroup) {
+          // Encontra a rotação frontal mais próxima (múltiplo de 2 * Math.PI)
+          hoverTargetY = Math.round(modelGroup.rotation.y / (Math.PI * 2)) * (Math.PI * 2);
+        }
       });
       card.addEventListener("pointerleave", () => {
-        targetRotationSpeed = 0.015; // Volta a girar ao tirar o mouse
+        isHovered = false;
       });
     }
 
-    // Loop de renderização
+    // Loop de renderização contínuo e ininterrupto (sem piscar!)
     function render(time) {
-      if (!isVisible) return;
-
       if (modelGroup) {
-        rotationSpeed += (targetRotationSpeed - rotationSpeed) * 0.08;
-        
-        // Rotação horizontal em Y e sutil flutuação em X/Z
-        modelGroup.rotation.y += rotationSpeed;
-        modelGroup.rotation.x = Math.sin(time * 0.0016) * 0.12;
-        modelGroup.rotation.z = Math.cos(time * 0.0012) * 0.06;
+        if (isHovered) {
+          // Quando mouse em cima, suaviza até ficar 100% de frente e centralizado
+          modelGroup.rotation.y += (hoverTargetY - modelGroup.rotation.y) * 0.15;
+          modelGroup.rotation.x += (0 - modelGroup.rotation.x) * 0.15;
+          modelGroup.rotation.z += (0 - modelGroup.rotation.z) * 0.15;
+        } else {
+          // Rotação normal e flutuação sutil
+          rotationSpeed += (targetRotationSpeed - rotationSpeed) * 0.08;
+          modelGroup.rotation.y += rotationSpeed;
+          modelGroup.rotation.x = Math.sin(time * 0.0016) * 0.12;
+          modelGroup.rotation.z = Math.cos(time * 0.0012) * 0.06;
+        }
       }
 
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(render);
+      requestAnimationFrame(render);
     }
 
-    // Controle de visibilidade
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-          if (isVisible) {
-            render(performance.now());
-          } else {
-            cancelAnimationFrame(animationFrameId);
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-
-    observer.observe(canvas);
+    // Inicia o render loop imediatamente
+    requestAnimationFrame(render);
   }
 
   window.Portfolio = window.Portfolio || {};
