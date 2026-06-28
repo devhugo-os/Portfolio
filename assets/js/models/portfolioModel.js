@@ -1,19 +1,24 @@
 (function () {
   const githubUser = "devhugo-os";
 
+  const collaboratorRepoPaths = [
+    "Rhuan-cmd/Biblioteca-FullStack",
+    "Rhuan-cmd/NeuroSys"
+  ];
+
   const skillIcons = {
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-    python: "img/Python.png",
-    c: "img/C.png",
+    python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
     cpp: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
     javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     html: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
     css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    gamemaker: "img/Gamemaker.png",
-    godot: "img/Godot.png",
-    node: "img/Nodejs.png",
-    mysql: "img/MySQL.png",
-    netbeans: "img/NetBeans.png",
+    gamemaker: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gamemaker/gamemaker-original.svg",
+    godot: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg",
+    node: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+    mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+    netbeans: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/netbeans/netbeans-original.svg",
     vscode: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
   };
 
@@ -83,6 +88,8 @@
     return {
       id: repo.id,
       name: repo.name,
+      fullName: repo.full_name,
+      owner: repo.owner.login,
       description: repo.description || "Sem descrição publicada no GitHub.",
       language: repo.language || "Sem linguagem",
       topics: Array.isArray(repo.topics) ? repo.topics : [],
@@ -96,26 +103,41 @@
   }
 
   async function fetchRepositories() {
-    const endpoint = `https://api.github.com/users/${githubUser}/repos?sort=updated&direction=desc&per_page=24`;
-    const response = await fetch(endpoint, {
-      headers: {
-        Accept: "application/vnd.github+json"
-      }
+    const endpoint = `https://api.github.com/users/${githubUser}/repos?sort=updated&direction=desc&per_page=30`;
+    
+    // Buscar repositórios do usuário e colaboradores concorrentemente
+    const userReposPromise = fetch(endpoint, {
+      headers: { Accept: "application/vnd.github+json" }
+    }).then(r => r.ok ? r.json() : []);
+
+    const collaboratorPromises = collaboratorRepoPaths.map(async (path) => {
+      try {
+        const res = await fetch(`https://api.github.com/repos/${path}`, {
+          headers: { Accept: "application/vnd.github+json" }
+        });
+        if (res.ok) {
+          return await res.json();
+        }
+      } catch (e) {}
+      return null;
     });
 
-    if (!response.ok) {
-      throw new Error(`GitHub respondeu com status ${response.status}`);
-    }
+    const [userRepos, ...collabReposResults] = await Promise.all([
+      userReposPromise,
+      ...collaboratorPromises
+    ]);
 
-    const repos = await response.json();
-    return repos
-      .filter((repo) => !repo.fork)
+    const collabRepos = collabReposResults.filter(r => r !== null);
+    const allRepos = [...userRepos, ...collabRepos];
+
+    return allRepos
+      .filter((repo) => !repo.fork || collaboratorRepoPaths.includes(repo.full_name))
       .map(normalizeRepository)
       .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   }
 
-  async function fetchRepoContributions(repoName) {
-    const cacheKey = `repo_contrib_${repoName}`;
+  async function fetchRepoContributions(repoFullName) {
+    const cacheKey = `repo_contrib_${repoFullName.replace("/", "_")}`;
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
       try {
@@ -127,7 +149,7 @@
     }
 
     try {
-      const response = await fetch(`https://api.github.com/repos/${githubUser}/${repoName}/contributors`, {
+      const response = await fetch(`https://api.github.com/repos/${repoFullName}/contributors`, {
         headers: { Accept: "application/vnd.github+json" }
       });
       if (!response.ok) throw new Error();
@@ -145,7 +167,7 @@
       }
       // Fallback estável para quando atingir o rate limit
       let hash = 0;
-      for (let i = 0; i < repoName.length; i++) hash += repoName.charCodeAt(i);
+      for (let i = 0; i < repoFullName.length; i++) hash += repoFullName.charCodeAt(i);
       return (hash % 35) + 8;
     }
   }
