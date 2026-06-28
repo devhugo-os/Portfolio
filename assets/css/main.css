@@ -634,25 +634,33 @@ body.near-right-edge .cursor-ring {
   border: 1px solid rgba(245, 242, 232, 0.18);
   border-radius: var(--radius);
   background:
-    linear-gradient(145deg, rgba(245, 242, 232, 0.12), rgba(245, 242, 232, 0.045)),
-    rgba(16, 19, 15, 0.72);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    linear-gradient(145deg, rgba(245, 242, 232, 0.08), rgba(245, 242, 232, 0.02)),
+    rgba(16, 19, 15, 0.85);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   transform-style: preserve-3d;
-  transition: transform 180ms ease, border-color 180ms ease;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease;
 }
 
 .skill-card::before {
   content: "";
   position: absolute;
-  inset: auto -20% -34% -20%;
-  height: 70%;
-  background: linear-gradient(90deg, rgba(66, 242, 183, 0.18), rgba(247, 201, 72, 0.16), rgba(255, 107, 87, 0.16));
-  transform: rotate(-7deg);
+  inset: -50%;
+  background: radial-gradient(circle at center, var(--skill-color, #42f2b7) 0%, transparent 65%);
+  opacity: 0.04;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .skill-card:hover,
 .skill-card:focus-within {
-  border-color: rgba(66, 242, 183, 0.44);
+  border-color: var(--skill-color, #42f2b7) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 0 18px var(--skill-color, rgba(66, 242, 183, 0.3)) !important;
+}
+
+.skill-card:hover::before {
+  opacity: 0.18;
 }
 
 .skill-card .skill-logo {
@@ -663,12 +671,18 @@ body.near-right-edge .cursor-ring {
   display: grid;
   place-items: center;
   margin-bottom: 10px;
-  border: 1px solid rgba(245, 242, 232, 0.2);
+  border: 1px solid rgba(245, 242, 232, 0.25);
   border-radius: var(--radius);
-  background: rgba(9, 10, 8, 0.5); /* dark glassy style */
+  background: rgba(9, 10, 8, 0.65);
   box-shadow: 4px 6px 0 rgba(66, 242, 183, 0.15);
   transform: translateZ(42px);
   overflow: visible;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover .skill-logo {
+  border-color: var(--skill-color, #42f2b7);
+  box-shadow: 4px 6px 0 var(--skill-color, #42f2b7);
 }
 
 .skill-3d-canvas {
@@ -708,19 +722,12 @@ body.near-right-edge .cursor-ring {
 }
 
 .repo-grid {
-  display: flex !important;
-  flex-direction: row !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  gap: 16px;
-  width: 100%;
-  padding: 8px 4px 18px; /* Evita recortar a sombra dos cards */
-  -ms-overflow-style: none; /* Firefox/IE */
-  scrollbar-width: none; /* Firefox */
-}
-
-.repo-grid::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+  gap: 16px !important;
+  width: 100% !important;
+  padding: 8px 4px 18px;
+  overflow: visible !important;
 }
 
 .featured-card {
@@ -746,15 +753,33 @@ body.near-right-edge .cursor-ring {
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
-  flex: 0 0 310px !important; /* Largura fixa no fluxo horizontal */
-  max-width: 310px !important;
-  min-height: 250px !important;
+  height: 280px !important; /* Altura fixa garantida */
+}
+
+.repo-footer {
+  margin-top: auto !important; /* Pushes the github button and meta info to the bottom */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  width: 100% !important;
 }
 
 .featured-card .btn,
 .repo-card .btn {
   margin-top: auto !important; /* Empurra o botão do github/link fixo para o final */
   align-self: flex-start;
+}
+
+/* Scroll vertical específico e ocultação de scrollbar para a aba de Projetos */
+#projetos {
+  overflow-y: auto !important;
+  max-height: 100vh !important;
+  padding-bottom: 140px !important;
+  scrollbar-width: none !important;
+}
+
+#projetos::-webkit-scrollbar {
+  display: none !important;
 }
 
 .featured-card::before,
