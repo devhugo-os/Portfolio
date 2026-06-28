@@ -715,6 +715,29 @@ body.near-right-edge .cursor-ring {
   font-size: 0.82rem;
 }
 
+.skill-experience-badge {
+  display: inline-block !important;
+  margin-top: 10px !important;
+  padding: 4px 10px !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--skill-color, var(--mint)) !important;
+  background: rgba(9, 10, 8, 0.6) !important;
+  color: var(--skill-color, var(--mint)) !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 0 10px var(--skill-color, rgba(66, 242, 183, 0.2)) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateZ(24px);
+}
+
+.skill-card:hover .skill-experience-badge {
+  transform: translateZ(32px) scale(1.05);
+  box-shadow: 0 0 15px var(--skill-color, rgba(66, 242, 183, 0.35)) !important;
+}
+
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -732,7 +755,7 @@ body.near-right-edge .cursor-ring {
 
 .featured-card {
   position: relative;
-  min-height: 100%;
+  height: 280px !important; /* Altura fixa garantida para alinhar com repositórios */
   padding: 16px;
   border: 1px solid rgba(245, 242, 232, 0.17);
   border-radius: var(--radius);
@@ -741,6 +764,22 @@ body.near-right-edge .cursor-ring {
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
+}
+
+.featured-card a {
+  margin-top: auto !important; /* Empurra o botão de ver projeto para o final do card */
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--mint);
+  font-weight: 800;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.featured-card a:hover {
+  color: var(--text);
 }
 
 .repo-card {
@@ -1550,4 +1589,10 @@ img {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Comprime ligeiramente a seção de contato verticalmente */
+.contact-section {
+  padding-top: 80px !important;
+  padding-bottom: 80px !important;
 }
