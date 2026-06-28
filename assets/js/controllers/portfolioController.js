@@ -148,6 +148,7 @@
     let isDragReady = false;
     let isDragging = false;
     let dragStartX = 0;
+    let dragStartY = 0;
     let dragProgress = 0;
     
     // Detecção das bordas da tela para chevrons
@@ -178,6 +179,7 @@
       isDragReady = true;
       isDragging = false;
       dragStartX = e.clientX;
+      dragStartY = e.clientY;
       dragProgress = 0;
     });
 
@@ -202,9 +204,10 @@
       if (!isDragReady) return;
 
       const diffX = e.clientX - dragStartX;
+      const diffY = e.clientY - dragStartY;
 
-      // Só inicia o arraste real se mover mais de 8px (evita flashes de página no clique simples)
-      if (!isDragging && Math.abs(diffX) > 8) {
+      // Só inicia o arraste real se mover mais de 8px horizontalmente e se for prioritariamente horizontal
+      if (!isDragging && Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
         isDragging = true;
         document.body.classList.remove("near-left-edge", "near-right-edge");
 
