@@ -50,13 +50,8 @@
         text += text ? ` e ${months} ${months === 1 ? 'mês' : 'meses'}` : `${months} ${months === 1 ? 'mês' : 'meses'}`;
       }
       if (!text) text = "Recente";
-      else text += " de exp.";
       
-      if (skill.experience) {
-        skill.experience = `${skill.experience} (${text})`;
-      } else {
-        skill.experience = text;
-      }
+      skill.duration = text;
     }
   });
 
