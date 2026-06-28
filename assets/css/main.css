@@ -218,11 +218,60 @@ body.cursor-active .cursor-ring {
 }
 
 #hero-scene {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -3;
+  pointer-events: none;
+  display: block;
+}
+
+/* 3D Page Navigation System */
+.portfolio-pages-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+}
+
+.portfolio-page {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s, visibility 0.8s;
+  scroll-behavior: smooth;
+}
+
+.portfolio-page.active-page {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) rotateY(0deg);
+  z-index: 1;
+}
+
+.portfolio-page.slide-left {
+  transform: translate3d(-100%, 0, -250px) rotateY(-45deg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.portfolio-page.slide-right {
+  transform: translate3d(100%, 0, -250px) rotateY(45deg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .hero-texture {
@@ -530,9 +579,17 @@ body.cursor-active .cursor-ring {
   margin-bottom: 20px;
   border: 1px solid rgba(245, 242, 232, 0.2);
   border-radius: var(--radius);
-  background: rgba(245, 242, 232, 0.9);
-  box-shadow: 12px 16px 0 rgba(66, 242, 183, 0.18);
+  background: rgba(9, 10, 8, 0.5); /* dark glassy style */
+  box-shadow: 6px 8px 0 rgba(66, 242, 183, 0.18);
   transform: translateZ(42px);
+  overflow: visible;
+}
+
+.skill-3d-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
 }
 
 .skill-card img {
@@ -647,10 +704,37 @@ body.cursor-active .cursor-ring {
   display: none;
 }
 
-.project-tabs .nav-link.active,
-.playground-tabs .nav-link.active {
+.project-tabs .nav-link.active {
   background: var(--text);
   color: var(--ink);
+}
+
+.tab-content {
+  perspective: 1000px;
+  position: relative;
+}
+
+.tab-pane {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s;
+  transform-style: preserve-3d;
+}
+
+.tab-pane.fade {
+  display: block !important;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: rotateY(-90deg) scale(0.95);
+}
+
+.tab-pane.fade.show.active {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+  transform: rotateY(0deg) scale(1);
 }
 
 .project-toolbar {
@@ -782,6 +866,29 @@ body.cursor-active .cursor-ring {
   to {
     background-position: -220% 0;
   }
+}
+
+.playground-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  margin-top: 20px;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.game-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .game-shell {
