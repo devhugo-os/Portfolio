@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio interativo de Hugo Oliveira Silva, desenvolvedor de jogos e full-stack.">
+  <title>Hugo Oliveira Silva | Portfólio Interativo</title>
+  <link rel="icon" href="img/Logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div class="cursor-core" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Navegação principal">
+      <div class="container">
+        <a class="navbar-brand magnetic-link" href="#inicio" aria-label="Voltar ao início">
+          <img src="img/Logo.png" alt="" width="34" height="34">
+          <span>Hugo</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Abrir menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#sobre">Sobre</a></li>
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#skills">Skills</a></li>
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#experiencias">Experiências</a></li>
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#projetos">Projetos</a></li>
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#playground">Playground</a></li>
+            <li class="nav-item"><a class="nav-link magnetic-link" href="#contato">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero-section" aria-labelledby="hero-title">
+      <canvas id="hero-scene" aria-hidden="true"></canvas>
+      <div class="hero-texture" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="section-kicker">Desenvolvedor de jogos e full-stack</p>
+          <h1 id="hero-title">Hugo Oliveira Silva</h1>
+          <p class="hero-lead">Transformo ideias em experiências imersivas, jogos dinâmicos e interfaces que convidam as pessoas a explorar.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary magnetic-link" href="#projetos">
+              <i class="bi bi-git"></i>
+              Ver repositórios
+            </a>
+            <a class="btn btn-outline-light magnetic-link" href="#playground">
+              <i class="bi bi-controller"></i>
+              Abrir playground
+            </a>
+          </div>
+          <div class="hero-facts" aria-label="Resumo">
+            <span><strong>2+</strong> anos criando jogos</span>
+            <span><strong>IFMA</strong> Informática</span>
+            <span><strong>MA</strong> Brasil</span>
+          </div>
+        </div>
+        <div class="hero-portrait" data-tilt>
+          <img src="img/perfil.png" alt="Foto de Hugo Oliveira Silva">
+          <span class="portrait-label">devhugo-os</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="content-section about-section" aria-labelledby="sobre-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Sobre mim</p>
+          <h2 id="sobre-title">Criando jogos, sistemas e experiências com personalidade.</h2>
+        </div>
+        <div class="about-layout">
+          <div class="about-media" data-tilt>
+            <img src="img/perfil2.png" alt="Hugo Oliveira Silva">
+          </div>
+          <div class="about-copy">
+            <p>Este portfólio compartilha meus projetos, experiências e habilidades no desenvolvimento de jogos eletrônicos, refletindo minha paixão em transformar ideias em experiências imersivas e divertidas.</p>
+            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA), tenho 16 anos, sou desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e gestão de bancos de dados.</p>
+            <p>Gosto especialmente de criar jogos divertidos e dinâmicos, com foco em performance e experiência do usuário.</p>
+            <div class="about-tags" aria-label="Áreas de atuação">
+              <span>Java</span>
+              <span>Python</span>
+              <span>C/C++</span>
+              <span>JavaScript</span>
+              <span>GameMaker</span>
+              <span>Godot</span>
+              <span>Node.js</span>
+              <span>MySQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="content-section skills-section" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Stack 3D</p>
+          <h2 id="skills-title">Linguagens, engines e ferramentas em órbita.</h2>
+        </div>
+        <div id="skills-grid" class="skills-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="experiencias" class="content-section highlights-section" aria-labelledby="experiencias-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Destaques</p>
+          <h2 id="experiencias-title">Projetos e experiências que mostram o estilo de criação.</h2>
+        </div>
+        <div id="featured-grid" class="featured-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="projetos" class="content-section projects-section" aria-labelledby="projetos-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">GitHub ao vivo</p>
+          <h2 id="projetos-title">Repositórios puxados em tempo real do perfil.</h2>
+        </div>
+
+        <ul class="nav nav-pills project-tabs" id="projectTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="github-tab-button" data-bs-toggle="pill" data-bs-target="#github-tab" type="button" role="tab" aria-controls="github-tab" aria-selected="true">
+              <i class="bi bi-github"></i>
+              Repositórios
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="spotlight-tab-button" data-bs-toggle="pill" data-bs-target="#spotlight-tab" type="button" role="tab" aria-controls="spotlight-tab" aria-selected="false">
+              <i class="bi bi-stars"></i>
+              Itch.io e TCC
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="github-tab" role="tabpanel" aria-labelledby="github-tab-button" tabindex="0">
+            <div class="project-toolbar">
+              <label class="search-field" for="repo-search">
+                <i class="bi bi-search"></i>
+                <input id="repo-search" type="search" placeholder="Filtrar repositórios" autocomplete="off">
+              </label>
+              <div id="repo-filters" class="repo-filters" aria-label="Filtros por linguagem"></div>
+              <button id="repo-refresh" class="icon-button magnetic-link" type="button" aria-label="Atualizar repositórios">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </div>
+            <p id="repo-status" class="repo-status" aria-live="polite">Carregando repositórios...</p>
+            <div id="repo-grid" class="repo-grid" aria-live="polite"></div>
+          </div>
+          <div class="tab-pane fade" id="spotlight-tab" role="tabpanel" aria-labelledby="spotlight-tab-button" tabindex="0">
+            <div id="spotlight-grid" class="featured-grid" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="playground" class="content-section playground-section" aria-labelledby="playground-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Mini-games</p>
+          <h2 id="playground-title">Um playground novo para testar reflexo e memória.</h2>
+        </div>
+
+        <ul class="nav nav-pills playground-tabs" id="playgroundTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="orbit-tab-button" data-bs-toggle="pill" data-bs-target="#orbit-tab" type="button" role="tab" aria-controls="orbit-tab" aria-selected="true">
+              <i class="bi bi-rocket-takeoff"></i>
+              Orbit Runner
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="memory-tab-button" data-bs-toggle="pill" data-bs-target="#memory-tab" type="button" role="tab" aria-controls="memory-tab" aria-selected="false">
+              <i class="bi bi-grid-3x3-gap"></i>
+              Memory Stack
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content playground-content">
+          <div class="tab-pane fade show active" id="orbit-tab" role="tabpanel" aria-labelledby="orbit-tab-button" tabindex="0">
+            <div class="game-shell orbit-shell">
+              <div class="game-hud">
+                <span>Pontos <strong id="orbit-score">0</strong></span>
+                <span>Energia <strong id="orbit-lives">3</strong></span>
+                <span>Combo <strong id="orbit-combo">1x</strong></span>
+              </div>
+              <canvas id="orbit-runner" width="920" height="420" aria-label="Orbit Runner"></canvas>
+              <div class="game-actions">
+                <button id="orbit-start" class="btn btn-primary magnetic-link" type="button">
+                  <i class="bi bi-play-fill"></i>
+                  Jogar
+                </button>
+                <button id="orbit-reset" class="btn btn-outline-light magnetic-link" type="button">
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                  Reiniciar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="memory-tab" role="tabpanel" aria-labelledby="memory-tab-button" tabindex="0">
+            <div class="game-shell memory-shell">
+              <div class="game-hud">
+                <span>Movimentos <strong id="memory-moves">0</strong></span>
+                <span>Pares <strong id="memory-pairs">0/6</strong></span>
+                <span id="memory-status">Pronto</span>
+              </div>
+              <div id="memory-grid" class="memory-grid" aria-live="polite"></div>
+              <div class="game-actions">
+                <button id="memory-reset" class="btn btn-primary magnetic-link" type="button">
+                  <i class="bi bi-shuffle"></i>
+                  Novo jogo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="content-section contact-section" aria-labelledby="contato-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Contato</p>
+          <h2 id="contato-title">Vamos transformar uma ideia em algo jogável.</h2>
+        </div>
+        <div class="contact-layout">
+          <div class="contact-panel">
+            <img src="img/perfil3.jpg" alt="Hugo Oliveira Silva">
+            <div>
+              <h3>Hugo Oliveira Silva</h3>
+              <p>Maranhão, Brasil</p>
+            </div>
+            <a href="mailto:linverfalhugo@gmail.com"><i class="bi bi-envelope"></i> linverfalhugo@gmail.com</a>
+            <a href="tel:+5599991800441"><i class="bi bi-telephone"></i> (99) 99180-0441</a>
+            <a href="https://github.com/devhugo-os" target="_blank" rel="noreferrer"><i class="bi bi-github"></i> GitHub</a>
+            <a href="https://xchugo.itch.io/" target="_blank" rel="noreferrer"><i class="bi bi-controller"></i> Itch.io</a>
+            <a href="https://www.youtube.com/@hugo_jy" target="_blank" rel="noreferrer"><i class="bi bi-youtube"></i> YouTube</a>
+          </div>
+
+          <form class="contact-form" action="https://formsubmit.co/linverfalhugo@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://devhugo-os.github.io/Portfolio/">
+            <label for="nome">Seu nome</label>
+            <input type="text" name="nome" id="nome" required>
+            <label for="email">Seu email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="mensagem">Sua mensagem</label>
+            <textarea name="mensagem" id="mensagem" rows="5" required></textarea>
+            <button type="submit" class="btn btn-primary magnetic-link">
+              <i class="bi bi-send"></i>
+              Enviar mensagem
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>Hugo Oliveira Silva</span>
+      <span>Portfólio interativo</span>
+      <span id="current-year"></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="assets/js/models/portfolioModel.js"></script>
+  <script src="assets/js/views/portfolioView.js"></script>
+  <script src="assets/js/scenes/heroScene.js"></script>
+  <script src="assets/js/games/orbitRunner.js"></script>
+  <script src="assets/js/games/memoryStack.js"></script>
+  <script src="assets/js/controllers/portfolioController.js"></script>
+</body>
+</html>
