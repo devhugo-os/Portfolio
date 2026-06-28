@@ -478,35 +478,50 @@
 
   function initContactForm() {
     const form = document.querySelector(".contact-form");
-    if (!form) return;
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const nome = document.getElementById("nome").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const mensagem = document.getElementById("mensagem").value.trim();
+        
+        const targetEmail = "devhugoo.os@gmail.com";
+        const subject = encodeURIComponent(`Contato de ${nome} via Portfólio`);
+        
+        const body = encodeURIComponent(
+          `Olá Hugo,\n\n` +
+          `Gostaria de iniciar um contato através do seu Portfólio.\n\n` +
+          `----------------- DECK DE TRANSMISSÃO -----------------\n` +
+          `• Remetente: ${nome}\n` +
+          `• E-mail: ${email}\n` +
+          `-----------------------------------------------------\n\n` +
+          `Mensagem:\n` +
+          `"${mensagem}"\n\n` +
+          `Aguardo seu retorno.\n\n` +
+          `-- Transmissão de Mensagem Automática`
+        );
+        
+        // Abre o Gmail Compose em uma nova aba com os campos pré-definidos
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${targetEmail}&su=${subject}&body=${body}`;
+        window.open(gmailUrl, "_blank");
+      });
+    }
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      
-      const nome = document.getElementById("nome").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const mensagem = document.getElementById("mensagem").value.trim();
-      
-      const targetEmail = "devhugoo.os@gmail.com";
-      const subject = encodeURIComponent(`Contato de ${nome} via Portfólio`);
-      
-      const body = encodeURIComponent(
-        `Olá Hugo,\n\n` +
-        `Gostaria de iniciar um contato através do seu Portfólio.\n\n` +
-        `----------------- DECK DE TRANSMISSÃO -----------------\n` +
-        `• Remetente: ${nome}\n` +
-        `• E-mail: ${email}\n` +
-        `-----------------------------------------------------\n\n` +
-        `Mensagem:\n` +
-        `"${mensagem}"\n\n` +
-        `Aguardo seu retorno.\n\n` +
-        `-- Transmissão de Mensagem Automática`
-      );
-      
-      // Abre o Gmail Compose em uma nova aba com os campos pré-definidos
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${targetEmail}&su=${subject}&body=${body}`;
-      window.open(gmailUrl, "_blank");
-    });
+    // Interceptar o botão do painel de email para abrir no Gmail Compose com texto pré-definido
+    const emailLink = document.querySelector('.contact-panel a[href^="mailto:"]');
+    if (emailLink) {
+      emailLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetEmail = "devhugoo.os@gmail.com";
+        const subject = encodeURIComponent("Contato via Portfólio");
+        const body = encodeURIComponent(
+          "Olá Hugo,\n\nEscreva sua mensagem aqui:\n\n\n\n\n---\nTransmissão enviada do Portfólio"
+        );
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${targetEmail}&su=${subject}&body=${body}`;
+        window.open(gmailUrl, "_blank");
+      });
+    }
   }
 
   function updateAge() {
