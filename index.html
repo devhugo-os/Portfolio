@@ -14,8 +14,11 @@
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-  <div class="cursor-core" aria-hidden="true"></div>
-  <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="cursor-core" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true">
+      <i class="bi bi-chevron-left cursor-arrow-left" aria-hidden="true"></i>
+      <i class="bi bi-chevron-right cursor-arrow-right" aria-hidden="true"></i>
+    </div>
   <canvas id="hero-scene" aria-hidden="true"></canvas>
 
   <header class="site-header">
@@ -29,14 +32,12 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainMenu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#sobre">Sobre</a></li>
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#skills">Skills</a></li>
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#experiencias">Experiências</a></li>
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#projetos">Projetos</a></li>
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#playground">Playground</a></li>
-            <li class="nav-item"><a class="nav-link magnetic-link" href="#contato">Contato</a></li>
-          </ul>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#sobre">Sobre</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#skills">Skills</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#projetos">Projetos</a></li>
+              <li class="nav-item"><a class="nav-link magnetic-link" href="#contato">Contato</a></li>
+            </ul>
         </div>
       </div>
     </nav>
@@ -54,10 +55,6 @@
             <a class="btn btn-primary magnetic-link" href="#projetos">
               <i class="bi bi-git"></i>
               Ver repositórios
-            </a>
-            <a class="btn btn-outline-light magnetic-link" href="#playground">
-              <i class="bi bi-controller"></i>
-              Abrir playground
             </a>
           </div>
           <div class="hero-facts" aria-label="Resumo">
@@ -85,8 +82,33 @@
           </div>
           <div class="about-copy">
             <p>Este portfólio compartilha meus projetos, experiências e habilidades no desenvolvimento de jogos eletrônicos, refletindo minha paixão em transformar ideias em experiências imersivas e divertidas.</p>
-            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA), tenho <span id="dynamic-age">16</span> anos, sou desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e gestão de bancos de dados.</p>
-            <p>Gosto especialmente de criar jogos divertidos e dinâmicos, com foco em performance e experiência do usuário.</p>
+            <p>Sou estudante de Informática no Instituto Federal do Maranhão (IFMA) e desenvolvedor de jogos e full-stack, com sólida experiência em diversas game engines, linguagens de programação e bancos de dados.</p>
+            
+            <div class="rpg-card">
+              <div class="rpg-card-header">
+                <i class="bi bi-shield-shaded"></i> FICHA DE PERSONAGEM
+              </div>
+              <div class="rpg-stats">
+                <div class="rpg-stat"><strong>Classe:</strong> Game Dev & Full-Stack</div>
+                <div class="rpg-stat"><strong>Idade:</strong> <span id="dynamic-age">16</span> anos</div>
+                <div class="rpg-stat"><strong>Nível:</strong> Técnico (IFMA)</div>
+              </div>
+              <div class="rpg-attributes">
+                <div class="rpg-attr">
+                  <span>LÓGICA</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 90%"></div></div>
+                </div>
+                <div class="rpg-attr">
+                  <span>CRIATIVIDADE</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 95%"></div></div>
+                </div>
+                <div class="rpg-attr">
+                  <span>PERFORMANCE</span>
+                  <div class="rpg-bar"><div class="rpg-bar-fill" style="width: 85%"></div></div>
+                </div>
+              </div>
+            </div>
+
             <div class="about-tags" aria-label="Áreas de atuação">
               <span>Java</span>
               <span>Python</span>
@@ -112,15 +134,6 @@
       </div>
     </section>
 
-    <section id="experiencias" class="content-section highlights-section portfolio-page" aria-labelledby="experiencias-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="section-kicker">Destaques</p>
-          <h2 id="experiencias-title">Projetos e experiências que mostram o estilo de criação.</h2>
-        </div>
-        <div id="featured-grid" class="featured-grid" aria-live="polite"></div>
-      </div>
-    </section>
 
     <section id="projetos" class="content-section projects-section portfolio-page" aria-labelledby="projetos-title">
       <div class="container">
@@ -162,58 +175,7 @@
           <div class="tab-pane fade" id="spotlight-tab" role="tabpanel" aria-labelledby="spotlight-tab-button" tabindex="0">
             <div id="spotlight-grid" class="featured-grid" aria-live="polite"></div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="playground" class="content-section playground-section portfolio-page" aria-labelledby="playground-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="section-kicker">Mini-games</p>
-          <h2 id="playground-title">Um playground novo para testar reflexo e memória.</h2>
-        </div>
-
-        <div class="playground-layout">
-          <div class="game-wrapper">
-            <h3 class="game-title"><i class="bi bi-rocket-takeoff"></i> Orbit Runner</h3>
-            <div class="game-shell orbit-shell">
-              <div class="game-hud">
-                <span>Pontos <strong id="orbit-score">0</strong></span>
-                <span>Energia <strong id="orbit-lives">3</strong></span>
-                <span>Combo <strong id="orbit-combo">1x</strong></span>
-              </div>
-              <canvas id="orbit-runner" width="920" height="420" aria-label="Orbit Runner"></canvas>
-              <div class="game-actions">
-                <button id="orbit-start" class="btn btn-primary magnetic-link" type="button">
-                  <i class="bi bi-play-fill"></i>
-                  Jogar
-                </button>
-                <button id="orbit-reset" class="btn btn-outline-light magnetic-link" type="button">
-                  <i class="bi bi-arrow-counterclockwise"></i>
-                  Reiniciar
-                </button>
-              </div>
-            </div>
           </div>
-
-          <div class="game-wrapper">
-            <h3 class="game-title"><i class="bi bi-grid-3x3-gap"></i> Memory Stack</h3>
-            <div class="game-shell memory-shell">
-              <div class="game-hud">
-                <span>Movimentos <strong id="memory-moves">0</strong></span>
-                <span>Pares <strong id="memory-pairs">0/6</strong></span>
-                <span id="memory-status">Pronto</span>
-              </div>
-              <div id="memory-grid" class="memory-grid" aria-live="polite"></div>
-              <div class="game-actions">
-                <button id="memory-reset" class="btn btn-primary magnetic-link" type="button">
-                  <i class="bi bi-shuffle"></i>
-                  Novo jogo
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -266,12 +228,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
   <script src="assets/js/models/portfolioModel.js"></script>
   <script src="assets/js/views/portfolioView.js"></script>
   <script src="assets/js/scenes/heroScene.js"></script>
   <script src="assets/js/scenes/skillsScene.js"></script>
-  <script src="assets/js/games/orbitRunner.js"></script>
-  <script src="assets/js/games/memoryStack.js"></script>
   <script src="assets/js/controllers/portfolioController.js"></script>
 </body>
 </html>
