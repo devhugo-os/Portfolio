@@ -72,7 +72,7 @@
       const tags = createElement("div", "featured-tags");
       item.tags.forEach((tag) => tags.appendChild(createElement("span", "", tag)));
 
-      const link = createElement("a");
+      const link = createElement("a", "btn btn-primary magnetic-link");
       link.href = item.url;
       link.target = "_blank";
       link.rel = "noreferrer";
@@ -143,7 +143,7 @@
         topics.appendChild(tag);
       });
 
-      const link = createElement("a");
+      const link = createElement("a", "btn btn-primary magnetic-link");
       link.href = repo.url;
       link.target = "_blank";
       link.rel = "noreferrer";
