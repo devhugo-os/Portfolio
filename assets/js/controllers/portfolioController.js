@@ -137,57 +137,140 @@
       });
     }
 
-    // Navegação por arrasto horizontal do mouse (drag)
+    // Navegação por arrasto horizontal interativo (PointerEvents - suporta Mouse e Toque)
     let isDragging = false;
     let dragStartX = 0;
-    let dragStartY = 0;
-
+    let dragProgress = 0;
+    
     // Detecção das bordas da tela para chevrons
     const edgeThreshold = 100;
     let nearLeftEdge = false;
     let nearRightEdge = false;
 
-    window.addEventListener("mousedown", (e) => {
+    window.addEventListener("pointerdown", (e) => {
+      // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
+      
+      const now = Date.now();
+      if (now - lastTransitionTime < 900) return;
+
       isDragging = true;
       dragStartX = e.clientX;
-      dragStartY = e.clientY;
-    });
+      dragProgress = 0;
 
-    window.addEventListener("mouseup", (e) => {
-      if (!isDragging) return;
-      isDragging = false;
+      // Desativar transições de CSS temporariamente
+      const curPage = document.getElementById(pageOrder[activeIndex]);
+      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
 
-      const diffX = e.clientX - dragStartX;
-      const diffY = e.clientY - dragStartY;
-
-      if (Math.abs(diffX) > 90 && Math.abs(diffX) > Math.abs(diffY)) {
-        const now = Date.now();
-        if (now - lastTransitionTime < 900) return;
-
-        if (diffX < 0) {
-          navigatePage(activeIndex + 1); // Arrastar da direita para a esquerda avança
-        } else {
-          navigatePage(activeIndex - 1); // Arrastar da esquerda para a direita volta
-        }
+      if (curPage) curPage.style.transition = "none";
+      if (nextPage) {
+        nextPage.style.transition = "none";
+        nextPage.style.visibility = "visible";
+        nextPage.style.opacity = "1";
+      }
+      if (prevPage) {
+        prevPage.style.transition = "none";
+        prevPage.style.visibility = "visible";
+        prevPage.style.opacity = "1";
       }
     });
 
-    // Detectar mouse perto das paredes laterais e mudar cursor
-    window.addEventListener("mousemove", (e) => {
+    window.addEventListener("pointermove", (e) => {
       const width = window.innerWidth;
       nearLeftEdge = e.clientX < edgeThreshold && activeIndex > 0;
       nearRightEdge = e.clientX > (width - edgeThreshold) && activeIndex < pageOrder.length - 1;
 
-      if (nearLeftEdge) {
-        document.body.classList.add("near-left-edge");
-        document.body.classList.remove("near-right-edge");
-      } else if (nearRightEdge) {
-        document.body.classList.add("near-right-edge");
-        document.body.classList.remove("near-left-edge");
-      } else {
-        document.body.classList.remove("near-left-edge", "near-right-edge");
+      if (!isDragging) {
+        // Atualizar classes das bordas no body quando não estiver arrastando
+        if (nearLeftEdge) {
+          document.body.classList.add("near-left-edge");
+          document.body.classList.remove("near-right-edge");
+        } else if (nearRightEdge) {
+          document.body.classList.add("near-right-edge");
+          document.body.classList.remove("near-left-edge");
+        } else {
+          document.body.classList.remove("near-left-edge", "near-right-edge");
+        }
+        return;
       }
+
+      // Ocultar setas das bordas durante o arraste
+      document.body.classList.remove("near-left-edge", "near-right-edge");
+
+      const diffX = e.clientX - dragStartX;
+      dragProgress = diffX / window.innerWidth;
+
+      // Limitar progress entre -1 e 1
+      dragProgress = Math.max(-1, Math.min(1, dragProgress));
+
+      const curPage = document.getElementById(pageOrder[activeIndex]);
+      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+
+      if (dragProgress < 0 && nextPage) {
+        // Arrastando para a esquerda (revela a próxima página)
+        curPage.style.transform = `translate3d(${dragProgress * 100}%, 0, ${dragProgress * 250}px) rotateY(${dragProgress * 45}deg)`;
+        curPage.style.opacity = 1 + dragProgress;
+
+        nextPage.style.transform = `translate3d(${(1 + dragProgress) * 100}%, 0, ${(1 + dragProgress) * -250}px) rotateY(${(1 + dragProgress) * 45}deg)`;
+        nextPage.style.opacity = -dragProgress;
+
+        if (prevPage) {
+          prevPage.style.visibility = "hidden";
+          prevPage.style.opacity = "0";
+        }
+      } else if (dragProgress > 0 && prevPage) {
+        // Arrastando para a direita (revela a página anterior)
+        curPage.style.transform = `translate3d(${dragProgress * 100}%, 0, ${-dragProgress * 250}px) rotateY(${dragProgress * 45}deg)`;
+        curPage.style.opacity = 1 - dragProgress;
+
+        prevPage.style.transform = `translate3d(${(-1 + dragProgress) * 100}%, 0, ${(1 - dragProgress) * -250}px) rotateY(${(-1 + dragProgress) * 45}deg)`;
+        prevPage.style.opacity = dragProgress;
+
+        if (nextPage) {
+          nextPage.style.visibility = "hidden";
+          nextPage.style.opacity = "0";
+        }
+      }
+    });
+
+    window.addEventListener("pointerup", (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const threshold = 0.15; // 15% de arraste para mudar de página
+      const curPage = document.getElementById(pageOrder[activeIndex]);
+      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+
+      // Restaurar transições de CSS
+      if (curPage) curPage.style.transition = "";
+      if (nextPage) nextPage.style.transition = "";
+      if (prevPage) prevPage.style.transition = "";
+
+      if (dragProgress < -threshold && nextPage) {
+        navigatePage(activeIndex + 1);
+      } else if (dragProgress > threshold && prevPage) {
+        navigatePage(activeIndex - 1);
+      } else {
+        // Snap back suave para a página atual
+        if (curPage) {
+          curPage.style.transform = "";
+          curPage.style.opacity = "";
+        }
+        if (nextPage) {
+          nextPage.style.transform = "";
+          nextPage.style.opacity = "";
+          nextPage.style.visibility = "";
+        }
+        if (prevPage) {
+          prevPage.style.transform = "";
+          prevPage.style.opacity = "";
+          prevPage.style.visibility = "";
+        }
+      }
+      dragProgress = 0;
     });
 
     // Click perto das bordas para avançar ou voltar
@@ -203,30 +286,6 @@
         navigatePage(activeIndex + 1);
       }
     });
-
-    // Navegação por swipe touch horizontal
-    let touchStartX = 0;
-    let touchStartY = 0;
-    window.addEventListener("touchstart", (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    window.addEventListener("touchend", (e) => {
-      const now = Date.now();
-      if (now - lastTransitionTime < 900) return;
-
-      const diffX = e.changedTouches[0].clientX - touchStartX;
-      const diffY = e.changedTouches[0].clientY - touchStartY;
-
-      if (Math.abs(diffX) > 75 && Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX < 0) {
-          navigatePage(activeIndex + 1); // Swipe da direita para a esquerda avança
-        } else {
-          navigatePage(activeIndex - 1); // Swipe da esquerda para a direita volta
-        }
-      }
-    }, { passive: true });
 
     // Suporte ao botão voltar/avançar do navegador
     window.addEventListener("popstate", () => {
