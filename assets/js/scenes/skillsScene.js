@@ -32,6 +32,20 @@
         for (let i = 0; i < paths.length; i++) {
           const path = paths[i];
           
+          // Filtrar retângulos e caminhos de fundo de cor sólida (geralmente preto ou cinza escuro)
+          // que ocupam o SVG inteiro e bloqueiam a visibilidade da marca em 3D.
+          const tagName = path.userData?.node?.tagName;
+          const fill = path.userData?.node?.getAttribute("fill");
+          const isBlackOrNearBlack = path.color && (
+            path.color.getHexString() === "000000" || 
+            path.color.getHexString() === "1a1a1a" || 
+            path.color.getHexString() === "111111" ||
+            path.color.getHexString() === "090a08"
+          );
+          if ((tagName === "rect" || tagName === "path") && isBlackOrNearBlack) {
+            continue; // Ignora o fundo preto
+          }
+          
           // Estilo metálico e vibrante para a cor do SVG
           const material = new THREE.MeshStandardMaterial({
             color: path.color || new THREE.Color(languageColor),
@@ -59,7 +73,7 @@
           }
         }
         
-        // Centraliza a logo no espaço 3D, corrige o flip Y do SVG e escala
+        // Centraliza a logo deslocando o grupo interno por -center
         const box = new THREE.Box3().setFromObject(group);
         const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
@@ -67,10 +81,17 @@
         const maxDim = Math.max(size.x, size.y, size.z) || 1;
         const scale = 0.95 / maxDim;
         
-        group.scale.set(scale, -scale, scale); // Corrige inversão de Y do SVG
-        group.position.set(-center.x * scale, center.y * scale, -size.z * 0.5 * scale);
+        // Coloca o centro geométrico exatamente na origem (0, 0, 0)
+        group.position.set(-center.x, -center.y, -center.z);
         
-        onLoaded(group);
+        // Cria o grupo pivô intermediário para rotação centrada perfeita
+        const pivot = new THREE.Group();
+        pivot.add(group);
+        
+        // Escala e inverte o eixo Y do SVG no pivô
+        pivot.scale.set(scale, -scale, scale);
+        
+        onLoaded(pivot);
       },
       undefined,
       function (error) {
@@ -141,10 +162,10 @@
     const card = canvas.closest(".skill-card");
     if (card) {
       card.addEventListener("pointerenter", () => {
-        targetRotationSpeed = 0.065;
+        targetRotationSpeed = 0; // Para de girar no hover
       });
       card.addEventListener("pointerleave", () => {
-        targetRotationSpeed = 0.015;
+        targetRotationSpeed = 0.015; // Volta a girar ao tirar o mouse
       });
     }
 
