@@ -165,7 +165,7 @@
       
       // Busca contribuições de forma assíncrona
       if (window.Portfolio.Model && window.Portfolio.Model.fetchRepoContributions) {
-        window.Portfolio.Model.fetchRepoContributions(repo.name).then(count => {
+        window.Portfolio.Model.fetchRepoContributions(repo.fullName).then(count => {
           countSpan.textContent = String(count);
         }).catch(() => {
           countSpan.textContent = "0";
