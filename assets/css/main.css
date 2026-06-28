@@ -623,8 +623,8 @@ body.near-right-edge .cursor-ring {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
   perspective: 1000px;
 }
 
@@ -710,34 +710,47 @@ body.near-right-edge .cursor-ring {
   margin: 0;
   color: var(--text);
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
 }
 
-.skill-card p {
+.skill-card p.skill-detail {
   position: relative;
   z-index: 1;
-  margin: 4px 0 0;
+  margin: 4px 0 8px;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.skill-card p.skill-exp-desc {
+  position: relative;
+  z-index: 1;
+  margin: 6px 0 0;
+  color: rgba(245, 242, 232, 0.82);
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .skill-experience-badge {
   display: inline-block !important;
   margin-top: auto !important;
   margin-bottom: 2px !important;
-  padding: 4px 10px !important;
-  border-radius: var(--radius) !important;
-  border: 1px solid var(--skill-color, var(--mint)) !important;
-  background: rgba(9, 10, 8, 0.6) !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
   color: var(--skill-color, var(--mint)) !important;
   font-family: var(--font-display) !important;
-  font-size: 0.72rem !important;
+  font-size: 0.76rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.8px !important;
+  letter-spacing: 0.6px !important;
   text-transform: uppercase !important;
-  box-shadow: 0 0 10px var(--skill-color, rgba(66, 242, 183, 0.2)) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: none !important;
+  transition: transform 0.3s ease;
   transform: translateZ(24px);
+  opacity: 0.9;
 }
 
 .skill-card:hover .skill-experience-badge {
@@ -760,9 +773,33 @@ body.near-right-edge .cursor-ring {
   overflow: visible !important;
 }
 
+.featured-card h3,
+.repo-card h3 {
+  height: 28px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8px !important;
+}
+
+.featured-card p,
+.repo-card p {
+  height: 90px !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  margin-bottom: 12px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+}
+
+.featured-card p::-webkit-scrollbar,
+.repo-card p::-webkit-scrollbar {
+  display: none !important;
+}
+
 .featured-card {
   position: relative;
-  height: 340px !important; /* Altura fixa garantida para alinhar com repositórios e dar espaço */
+  height: 380px !important; /* Altura fixa garantida para alinhar com repositórios e dar espaço */
   padding: 16px;
   border: 1px solid rgba(245, 242, 232, 0.17);
   border-radius: var(--radius);
@@ -799,7 +836,7 @@ body.near-right-edge .cursor-ring {
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
-  height: 340px !important; /* Altura aumentada para evitar corte de descrições longas */
+  height: 380px !important; /* Altura aumentada para evitar corte de descrições longas */
 }
 
 .repo-footer {
