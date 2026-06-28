@@ -176,7 +176,11 @@
       updated.append(createIcon("bi-clock-history"), document.createTextNode(formatDate(repo.updatedAt)));
 
       meta.append(language, stars, forks, contributions, updated);
-      article.append(title, description, topics, link, meta);
+
+      const repoFooter = createElement("div", "repo-footer");
+      repoFooter.append(link, meta);
+
+      article.append(title, description, topics, repoFooter);
       return article;
     });
 
