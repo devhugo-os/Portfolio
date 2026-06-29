@@ -41,6 +41,13 @@
     if (year) {
       year.textContent = new Date().getFullYear().toString();
     }
+    const expYearsSpan = document.getElementById("dynamic-experience-years");
+    if (expYearsSpan) {
+      const startYear = 2022; // Ele começou a criar jogos em 2022
+      const currentYear = new Date().getFullYear();
+      const diff = currentYear - startYear;
+      expYearsSpan.textContent = String(diff);
+    }
   }
 
   const pageOrder = ["inicio", "sobre", "skills", "projetos", "contato"];
@@ -98,6 +105,11 @@
     activeIndex = targetIndex;
     lastTransitionTime = Date.now();
 
+    // Rola para o topo do site no mobile ao mudar de aba
+    if (window.innerWidth < 992) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
     // Atualiza links da navbar
     const links = document.querySelectorAll(".navbar .nav-link, .navbar .navbar-brand");
     links.forEach((link) => {
@@ -114,6 +126,12 @@
     if (targetIndex < 0 || targetIndex >= pageOrder.length) return;
     if (targetIndex === activeIndex) return;
     if (isNavigatingStepByStep) return;
+    
+    // Em dispositivos móveis, navega instantaneamente para evitar delays sem efeito de slide
+    if (window.innerWidth < 992) {
+      navigatePage(targetIndex);
+      return;
+    }
     
     isNavigatingStepByStep = true;
     
