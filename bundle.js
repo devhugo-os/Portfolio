@@ -129,6 +129,54 @@
     };
   }
 
+  const fallbackRepositories = [
+    {
+      id: 101,
+      name: "Biblioteca-FullStack",
+      fullName: "Rhuan-cmd/Biblioteca-FullStack",
+      owner: "Rhuan-cmd",
+      description: "Sistema completo de gerenciamento de biblioteca utilizando arquitetura Full-Stack.",
+      language: "Java",
+      topics: ["fullstack", "biblioteca", "java", "sql"],
+      stars: 5,
+      forks: 2,
+      updatedAt: new Date().toISOString(),
+      url: "https://github.com/Rhuan-cmd/Biblioteca-FullStack",
+      homepage: null,
+      isFork: true
+    },
+    {
+      id: 102,
+      name: "NeuroSys",
+      fullName: "Rhuan-cmd/NeuroSys",
+      owner: "Rhuan-cmd",
+      description: "Plataforma de inteligência artificial e análise de dados neurais.",
+      language: "Python",
+      topics: ["neuroscience", "ai", "python", "data-science"],
+      stars: 8,
+      forks: 1,
+      updatedAt: new Date().toISOString(),
+      url: "https://github.com/Rhuan-cmd/NeuroSys",
+      homepage: null,
+      isFork: true
+    },
+    {
+      id: 103,
+      name: "Portfolio",
+      fullName: "devhugo-os/Portfolio",
+      owner: "devhugo-os",
+      description: "Portfólio interativo 3D desenvolvido com Three.js, HTML5 e CSS3.",
+      language: "JavaScript",
+      topics: ["threejs", "portfolio", "frontend", "3d"],
+      stars: 10,
+      forks: 3,
+      updatedAt: new Date().toISOString(),
+      url: "https://github.com/devhugo-os/Portfolio",
+      homepage: "https://devhugo-os.github.io/Portfolio/",
+      isFork: false
+    }
+  ];
+
   async function fetchRepositories() {
     const cacheKey = `github_repos_${githubUser}`;
     const endpoint = `https://api.github.com/users/${githubUser}/repos?sort=updated&direction=desc&per_page=30`;
@@ -185,7 +233,8 @@
         console.log("Carregando repositórios salvos em cache local.");
         return JSON.parse(cached);
       }
-      throw error;
+      console.log("Cache local vazio e requisição falhou. Usando repositórios iniciais de fallback.");
+      return fallbackRepositories;
     }
   }
 
@@ -1644,21 +1693,27 @@
     if (!heroTitle) return;
     
     const text = "Hugo Oliveira Silva";
-    heroTitle.textContent = "";
+    heroTitle.innerHTML = "";
+    
+    const visibleSpan = document.createElement("span");
     
     const cursorSpan = document.createElement("span");
-    cursorSpan.className = "typing-cursor";
+    cursorSpan.className = "typing-cursor blink";
     cursorSpan.textContent = "|";
+    
+    const hiddenSpan = document.createElement("span");
+    hiddenSpan.style.opacity = "0";
+    hiddenSpan.style.userSelect = "none";
+    
+    heroTitle.append(visibleSpan, cursorSpan, hiddenSpan);
     
     let index = 0;
     function type() {
-      if (index < text.length) {
-        heroTitle.textContent = text.substring(0, index + 1);
-        heroTitle.appendChild(cursorSpan);
+      if (index <= text.length) {
+        visibleSpan.textContent = text.substring(0, index);
+        hiddenSpan.textContent = text.substring(index);
         index++;
-        setTimeout(type, 100 + Math.random() * 50);
-      } else {
-        cursorSpan.classList.add("blink");
+        setTimeout(type, 100 + Math.random() * 55);
       }
     }
     
