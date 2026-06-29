@@ -1610,7 +1610,13 @@ img {
     visibility: hidden !important;
     display: none !important; /* Oculta páginas não ativas para não empilhar conteúdo */
     overflow-y: visible !important;
-    padding: 100px 0 60px !important;
+    padding: 70px 0 40px !important;
+  }
+
+  .content-section,
+  .contact-section {
+    padding-top: 70px !important;
+    padding-bottom: 40px !important;
   }
 
   .portfolio-page.active-page {
