@@ -9,13 +9,18 @@
     const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
     camera.position.set(0, 0, 8);
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true
-    });
-
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    } catch (e) {
+      console.warn("WebGL não suportado no dispositivo atual:", e);
+      return;
+    }
 
     const root = new THREE.Group();
     scene.add(root);
