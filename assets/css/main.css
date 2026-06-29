@@ -1480,8 +1480,8 @@ img {
   z-index: 1000 !important;
   background: rgba(9, 10, 8, 0.95);
   backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(59, 130, 246, 0.25);
-  padding: 12px 0 16px;
+  border-top: 1px solid rgba(245, 242, 232, 0.15) !important; /* Borda neutra */
+  padding: 10px 0 14px;
   transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   color: var(--muted);
@@ -1496,36 +1496,35 @@ img {
   padding-top: 0;
 }
 
-/* Rodapé HUD */
-.footer-hud-left,
-.footer-hud-center,
-.footer-hud-right {
+.footer-left,
+.footer-center,
+.footer-right {
   display: flex;
   align-items: center;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-weight: 500;
+  color: rgba(245, 242, 232, 0.65);
 }
 
-.footer-hud-left {
-  color: var(--mint);
-}
-
-.hud-indicator {
-  display: flex;
+.footer-right a {
+  color: rgba(245, 242, 232, 0.65);
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  transition: color 0.2s ease;
+  cursor: none !important;
 }
 
-.hud-pulse {
-  width: 8px;
-  height: 8px;
-  background: var(--mint);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--mint);
-  display: inline-block;
-  animation: pulse 1.6s infinite alternate;
+.footer-right a:hover {
+  color: var(--mint) !important;
+}
+
+/* Mostrar rodapé continuamente em fullscreen */
+:fullscreen .site-footer,
+:-webkit-full-screen .site-footer {
+  transform: translateY(0) !important;
 }
 
 @keyframes pulse {
