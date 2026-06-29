@@ -6,6 +6,11 @@
     "Rhuan-cmd/NeuroSys"
   ];
 
+  const isLocal = window.location.protocol === "file:";
+  const nodeIcon = isLocal 
+    ? "https://devhugo-os.github.io/Portfolio/img/Nodejs.svg" 
+    : "img/Nodejs.svg";
+
   const skillIcons = {
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
     python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
@@ -14,8 +19,8 @@
     javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     html: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
     css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
-    node: "img/Nodejs.svg"
+    gamemaker: "https://cdn.simpleicons.org/gamemaker/ffffff",
+    node: nodeIcon
   };
 
   const skills = [
