@@ -1,5 +1,5 @@
 (function () {
-  const { Model, View, HeroScene, SkillsScene } = window.Portfolio;
+  let Model, View, HeroScene, SkillsScene;
 
   const state = {
     repositories: [],
@@ -8,21 +8,75 @@
   };
 
   function init() {
-    View.renderSkills(Model.skills);
-    View.renderFeatured(Model.featuredExperiences, "spotlight-grid");
+    const Portfolio = window.Portfolio || {};
+    Model = Portfolio.Model;
+    View = Portfolio.View;
+    HeroScene = Portfolio.HeroScene;
+    SkillsScene = Portfolio.SkillsScene;
 
-    setCurrentYear();
-    updateAge();
-    initNavigation();
-    initCursor();
-    initTilt();
-    initMagneticLinks();
-    initRepositories();
-    initContactForm();
+    if (View && Model) {
+      try {
+        View.renderSkills(Model.skills);
+      } catch (e) {
+        console.error("Erro ao renderizar skills:", e);
+      }
+      try {
+        View.renderFeatured(Model.featuredExperiences, "spotlight-grid");
+      } catch (e) {
+        console.error("Erro ao renderizar experiências destacadas:", e);
+      }
+    } else {
+      console.warn("Model ou View do Portfolio não definidos.");
+    }
 
-    HeroScene.init();
-    if (SkillsScene) {
-      SkillsScene.init();
+    try {
+      setCurrentYear();
+    } catch (e) { console.error(e); }
+    
+    try {
+      updateAge();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initNavigation();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initCursor();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initTilt();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initMagneticLinks();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initRepositories();
+    } catch (e) { console.error(e); }
+    
+    try {
+      initContactForm();
+    } catch (e) { console.error(e); }
+
+    if (HeroScene && typeof HeroScene.init === "function") {
+      try {
+        HeroScene.init();
+      } catch (e) {
+        console.error("Erro ao inicializar HeroScene:", e);
+      }
+    } else {
+      console.warn("HeroScene não disponível.");
+    }
+
+    if (SkillsScene && typeof SkillsScene.init === "function") {
+      try {
+        SkillsScene.init();
+      } catch (e) {
+        console.error("Erro ao inicializar SkillsScene:", e);
+      }
     }
 
     // Auto-fullscreen contínuo em qualquer clique do usuário
