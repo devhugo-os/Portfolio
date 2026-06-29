@@ -83,6 +83,11 @@
             if (i === 0) finalColor = new THREE.Color("#3776AB"); // Azul oficial
             else if (i === 1) finalColor = new THREE.Color("#FFD343"); // Amarelo oficial
             else finalColor = new THREE.Color("#FFFFFF");
+          } else if (url.includes("css3")) {
+            if (i === 0) finalColor = new THREE.Color("#1572B6"); // Azul oficial esquerdo
+            else if (i === 1) finalColor = new THREE.Color("#33A9FF"); // Azul claro direito
+            else if (i === 2) finalColor = new THREE.Color("#FFFFFF"); // Branco "3"
+            else finalColor = new THREE.Color("#FFFFFF");
           } else {
             const isDefaultBlack = path.color && path.color.getHexString() === "000000";
             finalColor = path.color && !isDefaultBlack ? path.color : new THREE.Color(languageColor);
@@ -111,6 +116,8 @@
             });
             
             const mesh = new THREE.Mesh(geometry, material);
+            // Offset em Z para evitar Z-fighting (caminhos renderizados em planos ligeiramente separados)
+            mesh.position.z = i * 0.5 * scaleRatio;
             group.add(mesh);
           }
         }
