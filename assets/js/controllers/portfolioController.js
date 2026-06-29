@@ -25,12 +25,12 @@
       SkillsScene.init();
     }
 
-    // Auto-fullscreen no primeiro clique do usuário
+    // Auto-fullscreen contínuo em qualquer clique do usuário
     document.addEventListener("click", () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
       }
-    }, { once: true });
+    });
 
     // Prevenir arrasto de imagem fantasma nativo do navegador
     window.addEventListener("dragstart", (e) => e.preventDefault());
