@@ -1,10 +1,15 @@
 (function () {
+  // view: Gerencia toda a parte visual e a injeção do HTML gerado pelos dados do modelo.
+  // Criamos funções utilitárias rápidas para enxugar o código e evitar repetição.
+
   const languageColors = () => window.Portfolio.Model.languageColors;
 
+  // Atalho rápido para selecionar elementos pelo ID
   function byId(id) {
     return document.getElementById(id);
   }
 
+  // Cria um elemento HTML com classe e texto de forma enxuta
   function createElement(tag, className, text) {
     const element = document.createElement(tag);
     if (className) {
@@ -16,12 +21,14 @@
     return element;
   }
 
+  // Atalho para ícones de fontes Bootstrap
   function createIcon(className) {
     const icon = createElement("i", `bi ${className}`);
     icon.setAttribute("aria-hidden", "true");
     return icon;
   }
 
+  // Formatação amigável das datas vindas do GitHub
   function formatDate(dateString) {
     return new Intl.DateTimeFormat("pt-BR", {
       day: "2-digit",
@@ -30,6 +37,7 @@
     }).format(new Date(dateString));
   }
 
+  // Monta os cards 3D de skills (aba Tech Stack) dinamicamente
   function renderSkills(skills) {
     const grid = byId("skills-grid");
     if (!grid) return;
