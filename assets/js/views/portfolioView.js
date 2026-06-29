@@ -73,7 +73,33 @@
       const article = createElement("article", "featured-card");
       const icon = createIcon(item.icon);
       const title = createElement("h3", "", item.title);
-      const description = createElement("p", "", item.description);
+      const description = createElement("p", "repo-description-p");
+      const fullText = item.description;
+      const maxChars = 80;
+
+      if (fullText.length > maxChars) {
+        const truncatedText = fullText.substring(0, maxChars) + "...";
+        const textNode = document.createTextNode(truncatedText);
+        description.appendChild(textNode);
+
+        const toggleBtn = createElement("button", "read-more-btn", "Ler mais");
+        toggleBtn.type = "button";
+        toggleBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isExpanded = article.classList.toggle("expanded");
+          if (isExpanded) {
+            textNode.nodeValue = fullText;
+            toggleBtn.textContent = "Ler menos";
+          } else {
+            textNode.nodeValue = truncatedText;
+            toggleBtn.textContent = "Ler mais";
+          }
+        });
+        description.appendChild(toggleBtn);
+      } else {
+        description.textContent = fullText;
+      }
+
       const tags = createElement("div", "featured-tags");
       item.tags.forEach((tag) => tags.appendChild(createElement("span", "", tag)));
 
@@ -139,7 +165,32 @@
     const cards = repositories.map((repo) => {
       const article = createElement("article", "repo-card");
       const title = createElement("h3", "", repo.name);
-      const description = createElement("p", "", repo.description);
+      const description = createElement("p", "repo-description-p");
+      const fullText = repo.description;
+      const maxChars = 80;
+
+      if (fullText.length > maxChars) {
+        const truncatedText = fullText.substring(0, maxChars) + "...";
+        const textNode = document.createTextNode(truncatedText);
+        description.appendChild(textNode);
+
+        const toggleBtn = createElement("button", "read-more-btn", "Ler mais");
+        toggleBtn.type = "button";
+        toggleBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isExpanded = article.classList.toggle("expanded");
+          if (isExpanded) {
+            textNode.nodeValue = fullText;
+            toggleBtn.textContent = "Ler menos";
+          } else {
+            textNode.nodeValue = truncatedText;
+            toggleBtn.textContent = "Ler mais";
+          }
+        });
+        description.appendChild(toggleBtn);
+      } else {
+        description.textContent = fullText;
+      }
 
       const topics = createElement("div", "repo-topics");
       const topicList = repo.topics.length ? repo.topics.slice(0, 4) : [repo.language];
