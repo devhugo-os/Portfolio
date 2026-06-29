@@ -28,7 +28,7 @@ html {
 }
 
 html, body {
-  height: 100% !important;
+  height: 100dvh !important;
   overflow: hidden !important;
 }
 
@@ -304,7 +304,7 @@ body.near-right-edge .cursor-ring {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: -2; /* Brought forward, in front of background gradient but behind content */
   pointer-events: none;
   display: block;
@@ -314,7 +314,7 @@ body.near-right-edge .cursor-ring {
 .portfolio-pages-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   perspective: 1200px;
   perspective-origin: 50% 50%;
   overflow: hidden;
@@ -853,15 +853,17 @@ body.near-right-edge .cursor-ring {
   align-self: flex-start;
 }
 
-/* Scroll vertical específico e ocultação de scrollbar para a aba de Projetos */
-#projetos {
+/* Scroll vertical específico e ocultação de scrollbar para as abas de Projetos e Skills */
+#projetos,
+#skills {
   overflow-y: auto !important;
-  max-height: 100vh !important;
+  max-height: 100dvh !important;
   padding-bottom: 140px !important;
   scrollbar-width: none !important;
 }
 
-#projetos::-webkit-scrollbar {
+#projetos::-webkit-scrollbar,
+#skills::-webkit-scrollbar {
   display: none !important;
 }
 
@@ -1659,4 +1661,50 @@ img {
 .contact-section {
   padding-top: 120px !important; /* Mesma distância e alinhamento de navbar das outras abas */
   padding-bottom: 50px !important;
+}
+
+/* Botão Ler mais / Ler menos e estados expandidos de cards */
+.read-more-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--mint) !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  padding: 0 !important;
+  margin-left: 6px !important;
+  cursor: none !important; /* Respeita o cursor personalizado do site */
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  display: inline-block !important;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline !important;
+}
+
+.featured-card.expanded,
+.repo-card.expanded {
+  height: auto !important;
+  min-height: 380px !important;
+  z-index: 10 !important;
+}
+
+.featured-card.expanded p,
+.repo-card.expanded p {
+  height: auto !important;
+}
+
+/* Correção de cor do texto dos botões de ver projeto do Itch/TCC para visibilidade */
+.featured-card a.btn-primary,
+.repo-card a.btn-primary {
+  color: #10130f !important;
+  background-color: var(--mint) !important;
+  border-color: var(--mint) !important;
+}
+
+.featured-card a.btn-primary:hover,
+.repo-card a.btn-primary:hover {
+  color: #10130f !important;
+  background-color: var(--amber) !important;
+  border-color: var(--amber) !important;
 }
