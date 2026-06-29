@@ -13,7 +13,7 @@
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
+    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
     node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
