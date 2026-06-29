@@ -20,6 +20,7 @@
     <i class="bi bi-chevron-right cursor-arrow-right" aria-hidden="true"></i>
   </div>
   <canvas id="hero-scene" aria-hidden="true"></canvas>
+  <div class="global-overlay" aria-hidden="true"></div>
 
   <header class="site-header">
     <nav class="navbar navbar-expand-lg" aria-label="Navegação principal">
@@ -45,11 +46,10 @@
 
   <main class="portfolio-pages-container">
     <section id="inicio" class="hero-section portfolio-page active-page" aria-labelledby="hero-title">
-      <div class="hero-texture" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="section-kicker">Desenvolvedor de jogos</p>
-          <h1 id="hero-title">Hugo Oliveira Silva</h1>
+          <h1 id="hero-title"><span id="hero-visible"></span><span id="hero-cursor" class="typing-cursor blink">|</span><span id="hero-hidden" style="opacity: 0; user-select: none;">Hugo Oliveira Silva</span></h1>
           <p class="hero-lead">Transformo ideias em experiências imersivas, jogos dinâmicos e interfaces que convidam as pessoas a explorar.</p>
           <div class="hero-actions">
             <a class="btn btn-primary magnetic-link" href="#projetos">
@@ -70,7 +70,6 @@
     </section>
 
     <section id="sobre" class="content-section about-section portfolio-page" aria-labelledby="sobre-title">
-      <div class="hero-texture" aria-hidden="true"></div>
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Sobre mim</p>
@@ -123,7 +122,6 @@
     </section>
 
     <section id="skills" class="content-section skills-section portfolio-page" aria-labelledby="skills-title">
-      <div class="hero-texture" aria-hidden="true"></div>
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Tech Stack</p>
@@ -135,7 +133,6 @@
 
 
     <section id="projetos" class="content-section projects-section portfolio-page" aria-labelledby="projetos-title">
-      <div class="hero-texture" aria-hidden="true"></div>
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">GitHub ao vivo</p>
@@ -180,7 +177,6 @@
     </section>
 
     <section id="contato" class="content-section contact-section portfolio-page" aria-labelledby="contato-title">
-      <div class="hero-texture" aria-hidden="true"></div>
       <div class="container">
         <div class="section-heading">
           <p class="section-kicker">Contato</p>
