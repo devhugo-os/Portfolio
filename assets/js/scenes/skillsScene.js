@@ -43,7 +43,13 @@
       })
       .then(text => {
         // Remove blocos de <style>...</style> inteiros e classes
-        const cleanText = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+        let cleanText = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+        
+        // Remove referências de gradiente/degradê (que causam erros no SVGLoader) e substitui por cores sólidas
+        cleanText = cleanText
+          .replace(/url\(#python-original-a\)/gi, "#3776ab")
+          .replace(/url\(#python-original-b\)/gi, "#ffd343")
+          .replace(/url\(#python-original-c\)/gi, "#3776ab");
         
         const loader = new THREE.SVGLoader();
         const data = loader.parse(cleanText);
