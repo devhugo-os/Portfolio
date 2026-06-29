@@ -42,7 +42,7 @@ html {
 }
 
 html, body {
-  height: 100% !important;
+  height: 100dvh !important;
   overflow: hidden !important;
 }
 
@@ -318,7 +318,7 @@ body.near-right-edge .cursor-ring {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: -2; /* Brought forward, in front of background gradient but behind content */
   pointer-events: none;
   display: block;
@@ -328,7 +328,7 @@ body.near-right-edge .cursor-ring {
 .portfolio-pages-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   perspective: 1200px;
   perspective-origin: 50% 50%;
   overflow: hidden;
@@ -867,15 +867,17 @@ body.near-right-edge .cursor-ring {
   align-self: flex-start;
 }
 
-/* Scroll vertical específico e ocultação de scrollbar para a aba de Projetos */
-#projetos {
+/* Scroll vertical específico e ocultação de scrollbar para as abas de Projetos e Skills */
+#projetos,
+#skills {
   overflow-y: auto !important;
-  max-height: 100vh !important;
+  max-height: 100dvh !important;
   padding-bottom: 140px !important;
   scrollbar-width: none !important;
 }
 
-#projetos::-webkit-scrollbar {
+#projetos::-webkit-scrollbar,
+#skills::-webkit-scrollbar {
   display: none !important;
 }
 
@@ -1675,6 +1677,52 @@ img {
   padding-bottom: 50px !important;
 }
 
+/* Botão Ler mais / Ler menos e estados expandidos de cards */
+.read-more-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--mint) !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  padding: 0 !important;
+  margin-left: 6px !important;
+  cursor: none !important; /* Respeita o cursor personalizado do site */
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  display: inline-block !important;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline !important;
+}
+
+.featured-card.expanded,
+.repo-card.expanded {
+  height: auto !important;
+  min-height: 380px !important;
+  z-index: 10 !important;
+}
+
+.featured-card.expanded p,
+.repo-card.expanded p {
+  height: auto !important;
+}
+
+/* Correção de cor do texto dos botões de ver projeto do Itch/TCC para visibilidade */
+.featured-card a.btn-primary,
+.repo-card a.btn-primary {
+  color: #10130f !important;
+  background-color: var(--mint) !important;
+  border-color: var(--mint) !important;
+}
+
+.featured-card a.btn-primary:hover,
+.repo-card a.btn-primary:hover {
+  color: #10130f !important;
+  background-color: var(--amber) !important;
+  border-color: var(--amber) !important;
+}
+
 </style>
 </head>
 <body>
@@ -1913,21 +1961,21 @@ img {
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
     node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
 
   const skills = [
     { name: "Java", detail: "Linguagem de programação", startDate: "2024-03-11", experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", icon: skillIcons.python },
-    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", icon: skillIcons.c },
-    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Base em programação", icon: skillIcons.cpp },
+    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", experience: "Automação, análise e machine learning", icon: skillIcons.python },
+    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", experience: "Algoritmos e estruturas de baixo nível", icon: skillIcons.c },
+    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Estruturas e jogos de alto desempenho", icon: skillIcons.cpp },
     { name: "JavaScript", detail: "Interfaces e interações web", startDate: "2024-03-11", experience: "Interatividade e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Web", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Web", icon: skillIcons.css },
-    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", icon: skillIcons.gamemaker },
-    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", icon: skillIcons.node }
+    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Marcação e SEO", icon: skillIcons.html },
+    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Layouts modernos e estilizações", icon: skillIcons.css },
+    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", experience: "Lógica de jogos 2D e prototipagem", icon: skillIcons.gamemaker },
+    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", experience: "APIs RESTful e servidores web", icon: skillIcons.node }
   ];
 
   // Calcula a experiência dinamicamente baseada na data de início de cada tecnologia
@@ -1984,7 +2032,9 @@ img {
     "C++": "#00599c",
     PHP: "#777bb4",
     GDScript: "#478cbf",
-    Shell: "#89e051"
+    Shell: "#89e051",
+    GameMaker: "#ffffff",
+    Node: "#339933"
   };
 
   function normalizeRepository(repo) {
@@ -2163,7 +2213,33 @@ img {
       const article = createElement("article", "featured-card");
       const icon = createIcon(item.icon);
       const title = createElement("h3", "", item.title);
-      const description = createElement("p", "", item.description);
+      const description = createElement("p", "repo-description-p");
+      const fullText = item.description;
+      const maxChars = 80;
+
+      if (fullText.length > maxChars) {
+        const truncatedText = fullText.substring(0, maxChars) + "...";
+        const textNode = document.createTextNode(truncatedText);
+        description.appendChild(textNode);
+
+        const toggleBtn = createElement("button", "read-more-btn", "Ler mais");
+        toggleBtn.type = "button";
+        toggleBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isExpanded = article.classList.toggle("expanded");
+          if (isExpanded) {
+            textNode.nodeValue = fullText;
+            toggleBtn.textContent = "Ler menos";
+          } else {
+            textNode.nodeValue = truncatedText;
+            toggleBtn.textContent = "Ler mais";
+          }
+        });
+        description.appendChild(toggleBtn);
+      } else {
+        description.textContent = fullText;
+      }
+
       const tags = createElement("div", "featured-tags");
       item.tags.forEach((tag) => tags.appendChild(createElement("span", "", tag)));
 
@@ -2229,7 +2305,32 @@ img {
     const cards = repositories.map((repo) => {
       const article = createElement("article", "repo-card");
       const title = createElement("h3", "", repo.name);
-      const description = createElement("p", "", repo.description);
+      const description = createElement("p", "repo-description-p");
+      const fullText = repo.description;
+      const maxChars = 80;
+
+      if (fullText.length > maxChars) {
+        const truncatedText = fullText.substring(0, maxChars) + "...";
+        const textNode = document.createTextNode(truncatedText);
+        description.appendChild(textNode);
+
+        const toggleBtn = createElement("button", "read-more-btn", "Ler mais");
+        toggleBtn.type = "button";
+        toggleBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isExpanded = article.classList.toggle("expanded");
+          if (isExpanded) {
+            textNode.nodeValue = fullText;
+            toggleBtn.textContent = "Ler menos";
+          } else {
+            textNode.nodeValue = truncatedText;
+            toggleBtn.textContent = "Ler mais";
+          }
+        });
+        description.appendChild(toggleBtn);
+      } else {
+        description.textContent = fullText;
+      }
 
       const topics = createElement("div", "repo-topics");
       const topicList = repo.topics.length ? repo.topics.slice(0, 4) : [repo.language];
@@ -2740,12 +2841,12 @@ img {
       SkillsScene.init();
     }
 
-    // Auto-fullscreen no primeiro clique do usuário
+    // Auto-fullscreen contínuo em qualquer clique do usuário
     document.addEventListener("click", () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
       }
-    }, { once: true });
+    });
 
     // Prevenir arrasto de imagem fantasma nativo do navegador
     window.addEventListener("dragstart", (e) => e.preventDefault());
