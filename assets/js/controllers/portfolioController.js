@@ -32,6 +32,15 @@
       }
     });
 
+    // Controlar classe de fullscreen no body para garantir compatibilidade e reflow do rodapé
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        document.body.classList.add("is-fullscreen");
+      } else {
+        document.body.classList.remove("is-fullscreen");
+      }
+    });
+
     // Prevenir arrasto de imagem fantasma nativo do navegador
     window.addEventListener("dragstart", (e) => e.preventDefault());
   }
