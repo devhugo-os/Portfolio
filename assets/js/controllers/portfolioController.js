@@ -178,7 +178,7 @@
 
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
-    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#'], .navbar .navbar-brand[href^='#']"));
+    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#'], .navbar .navbar-brand[href^='#'], .site-footer a[href^='#']"));
     const collapse = menu && window.bootstrap ? new bootstrap.Collapse(menu, { toggle: false }) : null;
 
     links.forEach((link) => {
