@@ -20,12 +20,12 @@
 
   const skills = [
     { name: "Java", detail: "Linguagem de programação", startDate: "2023-12-28", experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2023-12-28", experience: "Automação, análise e machine learning", icon: skillIcons.python },
+    { name: "Python", detail: "Automação, scripts e protótipos", startDate: "2023-12-28", experience: "Automação, análise e machine learning", icon: skillIcons.python },
     { name: "C", detail: "Fundamentos e performance", startDate: "2023-12-28", experience: "Algoritmos e estruturas de baixo nível", icon: skillIcons.c },
     { name: "C++", detail: "Estruturas e jogos", startDate: "2023-12-28", experience: "Estruturas e jogos de alto desempenho", icon: skillIcons.cpp },
     { name: "JavaScript", detail: "Interfaces e interações web", startDate: "2023-12-28", experience: "Interatividade e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2023-12-28", experience: "Marcação e SEO", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2023-12-28", experience: "Layouts modernos e estilizações", icon: skillIcons.css },
+    { name: "HTML", detail: "Estrutura web semântica", startDate: "2023-12-28", experience: "Marcação e SEO", icon: skillIcons.html },
+    { name: "CSS", detail: "Layouts, animações e responsividade", startDate: "2023-12-28", experience: "Layouts modernos e estilizações", icon: skillIcons.css },
     { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2023-12-28", experience: "Lógica de jogos 2D e prototipagem", icon: skillIcons.gamemaker },
     { name: "Node.js", detail: "Back-end e APIs", startDate: "2024-12-28", experience: "APIs RESTful e servidores web", icon: skillIcons.node }
   ];
