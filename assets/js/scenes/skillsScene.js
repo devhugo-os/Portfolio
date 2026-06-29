@@ -245,11 +245,11 @@
           modelGroup.rotation.x += (0 - modelGroup.rotation.x) * 0.15;
           modelGroup.rotation.z += (0 - modelGroup.rotation.z) * 0.15;
         } else {
-          // Rotação normal e flutuação sutil
-          rotationSpeed += (targetRotationSpeed - rotationSpeed) * 0.08;
-          modelGroup.rotation.y += rotationSpeed;
-          modelGroup.rotation.x = Math.sin(time * 0.0016) * 0.12;
-          modelGroup.rotation.z = Math.cos(time * 0.0012) * 0.06;
+          // Rotação sincronizada baseada no tempo global para sincronia perfeita
+          const targetY = time * 0.001;
+          modelGroup.rotation.y += (targetY - modelGroup.rotation.y) * 0.1;
+          modelGroup.rotation.x += (Math.sin(time * 0.0016) * 0.12 - modelGroup.rotation.x) * 0.1;
+          modelGroup.rotation.z += (Math.cos(time * 0.0012) * 0.06 - modelGroup.rotation.z) * 0.1;
         }
       }
 

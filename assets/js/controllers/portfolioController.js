@@ -61,6 +61,10 @@
       initContactForm();
     } catch (e) { console.error(e); }
 
+    try {
+      initTypingAnimation();
+    } catch (e) { console.error(e); }
+
     if (HeroScene && typeof HeroScene.init === "function") {
       try {
         HeroScene.init();
@@ -701,6 +705,32 @@
     }
     
     ageSpan.textContent = String(age);
+  }
+
+  function initTypingAnimation() {
+    const heroTitle = document.getElementById("hero-title");
+    if (!heroTitle) return;
+    
+    const text = "Hugo Oliveira Silva";
+    heroTitle.textContent = "";
+    
+    const cursorSpan = document.createElement("span");
+    cursorSpan.className = "typing-cursor";
+    cursorSpan.textContent = "|";
+    
+    let index = 0;
+    function type() {
+      if (index < text.length) {
+        heroTitle.textContent = text.substring(0, index + 1);
+        heroTitle.appendChild(cursorSpan);
+        index++;
+        setTimeout(type, 100 + Math.random() * 50);
+      } else {
+        cursorSpan.classList.add("blink");
+      }
+    }
+    
+    setTimeout(type, 800);
   }
 
   document.addEventListener("DOMContentLoaded", init);

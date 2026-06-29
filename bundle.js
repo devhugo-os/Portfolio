@@ -130,40 +130,63 @@
   }
 
   async function fetchRepositories() {
+    const cacheKey = `github_repos_${githubUser}`;
     const endpoint = `https://api.github.com/users/${githubUser}/repos?sort=updated&direction=desc&per_page=30`;
     
-    // Buscar repositórios do usuário e colaboradores concorrentemente
-    const userReposPromise = fetch(endpoint, {
-      headers: { Accept: "application/vnd.github+json" }
-    })
-      .then(r => r.ok ? r.json() : [])
-      .catch(() => []);
-
-    const collaboratorPromises = collaboratorRepoPaths.map(async (path) => {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${path}`, {
-          headers: { Accept: "application/vnd.github+json" }
-        });
-        if (res.ok) {
-          return await res.json();
+    try {
+      const res = await fetch(endpoint, {
+        headers: { Accept: "application/vnd.github+json" }
+      });
+      
+      let userRepos = [];
+      if (res.ok) {
+        userRepos = await res.json();
+      } else {
+        console.warn(`API do GitHub retornou erro ${res.status}. Tentando ler do cache local...`);
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          return JSON.parse(cached);
         }
-      } catch (e) {}
-      return null;
-    });
+        throw new Error(`GitHub API error ${res.status}`);
+      }
 
-    const [userRepos, ...collabReposResults] = await Promise.all([
-      userReposPromise,
-      ...collaboratorPromises
-    ]);
+      const collaboratorPromises = collaboratorRepoPaths.map(async (path) => {
+        try {
+          const resCollab = await fetch(`https://api.github.com/repos/${path}`, {
+            headers: { Accept: "application/vnd.github+json" }
+          });
+          if (resCollab.ok) {
+            return await resCollab.json();
+          }
+        } catch (e) {}
+        return null;
+      });
 
-    const collabRepos = collabReposResults.filter(r => r !== null);
-    const allRepos = [...userRepos, ...collabRepos];
+      const collabReposResults = await Promise.all(collaboratorPromises);
+      const collabRepos = collabReposResults.filter(r => r !== null);
+      
+      const allRepos = [...userRepos, ...collabRepos];
+      
+      const normalized = allRepos
+        .filter((repo) => repo && (!repo.fork || collaboratorRepoPaths.includes(repo.full_name)))
+        .map(normalizeRepository)
+        .filter((repo) => repo !== null)
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
-    return allRepos
-      .filter((repo) => repo && (!repo.fork || collaboratorRepoPaths.includes(repo.full_name)))
-      .map(normalizeRepository)
-      .filter((repo) => repo !== null)
-      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      if (normalized.length > 0) {
+        localStorage.setItem(cacheKey, JSON.stringify(normalized));
+      }
+      
+      return normalized;
+    } catch (error) {
+      console.error("Erro na busca de repositórios:", error);
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        console.log("Carregando repositórios salvos em cache local.");
+        return JSON.parse(cached);
+      }
+      throw error;
+    }
   }
 
   async function fetchRepoContributions(repoFullName) {
@@ -885,11 +908,11 @@
           modelGroup.rotation.x += (0 - modelGroup.rotation.x) * 0.15;
           modelGroup.rotation.z += (0 - modelGroup.rotation.z) * 0.15;
         } else {
-          // Rotação normal e flutuação sutil
-          rotationSpeed += (targetRotationSpeed - rotationSpeed) * 0.08;
-          modelGroup.rotation.y += rotationSpeed;
-          modelGroup.rotation.x = Math.sin(time * 0.0016) * 0.12;
-          modelGroup.rotation.z = Math.cos(time * 0.0012) * 0.06;
+          // Rotação sincronizada baseada no tempo global para sincronia perfeita
+          const targetY = time * 0.001;
+          modelGroup.rotation.y += (targetY - modelGroup.rotation.y) * 0.1;
+          modelGroup.rotation.x += (Math.sin(time * 0.0016) * 0.12 - modelGroup.rotation.x) * 0.1;
+          modelGroup.rotation.z += (Math.cos(time * 0.0012) * 0.06 - modelGroup.rotation.z) * 0.1;
         }
       }
 
@@ -968,6 +991,10 @@
     
     try {
       initContactForm();
+    } catch (e) { console.error(e); }
+
+    try {
+      initTypingAnimation();
     } catch (e) { console.error(e); }
 
     if (HeroScene && typeof HeroScene.init === "function") {
@@ -1610,6 +1637,32 @@
     }
     
     ageSpan.textContent = String(age);
+  }
+
+  function initTypingAnimation() {
+    const heroTitle = document.getElementById("hero-title");
+    if (!heroTitle) return;
+    
+    const text = "Hugo Oliveira Silva";
+    heroTitle.textContent = "";
+    
+    const cursorSpan = document.createElement("span");
+    cursorSpan.className = "typing-cursor";
+    cursorSpan.textContent = "|";
+    
+    let index = 0;
+    function type() {
+      if (index < text.length) {
+        heroTitle.textContent = text.substring(0, index + 1);
+        heroTitle.appendChild(cursorSpan);
+        index++;
+        setTimeout(type, 100 + Math.random() * 50);
+      } else {
+        cursorSpan.classList.add("blink");
+      }
+    }
+    
+    setTimeout(type, 800);
   }
 
   document.addEventListener("DOMContentLoaded", init);
