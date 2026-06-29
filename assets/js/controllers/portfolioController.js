@@ -43,10 +43,14 @@
     }
     const expYearsSpan = document.getElementById("dynamic-experience-years");
     if (expYearsSpan) {
-      const startYear = 2022; // Ele começou a criar jogos em 2022
-      const currentYear = new Date().getFullYear();
-      const diff = currentYear - startYear;
-      expYearsSpan.textContent = String(diff);
+      const start = new Date("2023-12-28");
+      const today = new Date();
+      let years = today.getFullYear() - start.getFullYear();
+      const m = today.getMonth() - start.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < start.getDate())) {
+        years--;
+      }
+      expYearsSpan.textContent = String(years);
     }
   }
 
