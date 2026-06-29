@@ -11,7 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
+  <!-- INLINED_CSS_START -->
+<style>
 :root {
   color-scheme: dark;
   --bg: #090a08;
@@ -1568,7 +1569,8 @@ img {
 
 /* Mostrar rodapé continuamente em fullscreen */
 :fullscreen .site-footer,
-:-webkit-full-screen .site-footer {
+:-webkit-full-screen .site-footer,
+body.is-fullscreen .site-footer {
   transform: translateY(0) !important;
 }
 
@@ -1906,6 +1908,7 @@ img {
 }
 
 </style>
+<!-- INLINED_CSS_END -->
 </head>
 <body>
   <div class="cursor-core" id="cursorCore" aria-hidden="true"></div>
@@ -2125,7 +2128,8 @@ img {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
-  <script>
+  <!-- INLINED_MODEL_START -->
+<script>
 (function () {
   const githubUser = "devhugo-os";
 
@@ -2317,7 +2321,9 @@ img {
 })();
 
 </script>
-  <script>
+<!-- INLINED_MODEL_END -->
+  <!-- INLINED_VIEW_START -->
+<script>
 (function () {
   // view: Gerencia toda a parte visual e a injeção do HTML gerado pelos dados do modelo.
   // Criamos funções utilitárias rápidas para enxugar o código e evitar repetição.
@@ -2574,7 +2580,9 @@ img {
 })();
 
 </script>
-  <script>
+<!-- INLINED_VIEW_END -->
+  <!-- INLINED_HERO_SCENE_START -->
+<script>
 (function () {
   function init() {
     const canvas = document.getElementById("hero-scene");
@@ -2729,7 +2737,9 @@ img {
 })();
 
 </script>
-  <script>
+<!-- INLINED_HERO_SCENE_END -->
+  <!-- INLINED_SKILLS_SCENE_START -->
+<script>
 (function () {
   function init() {
     if (!window.THREE) {
@@ -2993,7 +3003,9 @@ img {
 })();
 
 </script>
-  <script>
+<!-- INLINED_SKILLS_SCENE_END -->
+  <!-- INLINED_CONTROLLER_START -->
+<script>
 (function () {
   const { Model, View, HeroScene, SkillsScene } = window.Portfolio;
 
@@ -3025,6 +3037,15 @@ img {
     document.addEventListener("click", () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+
+    // Controlar classe de fullscreen no body para garantir compatibilidade e reflow do rodapé
+    document.addEventListener("fullscreenchange", () => {
+      if (document.fullscreenElement) {
+        document.body.classList.add("is-fullscreen");
+      } else {
+        document.body.classList.remove("is-fullscreen");
       }
     });
 
@@ -3640,5 +3661,6 @@ img {
 })();
 
 </script>
+<!-- INLINED_CONTROLLER_END -->
 </body>
 </html>
