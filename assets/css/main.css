@@ -1681,10 +1681,17 @@ img {
     filter: invert(1) hue-rotate(90deg) brightness(1.2) !important;
   }
 
-  .hero-section {
+  .hero-section.active-page {
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
+  }
+
+  #projetos,
+  #skills {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding-bottom: 60px !important;
   }
 
   .hero-grid,
