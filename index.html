@@ -1608,17 +1608,22 @@ img {
   }
 
   .portfolio-pages-container {
+    perspective: none !important;
+    perspective-origin: ease !important;
+    transform: none !important;
     height: auto !important;
     max-height: none !important;
     top: 0 !important;
-    transform: none !important;
     overflow: visible !important;
   }
 
   .portfolio-page {
+    transform: none !important;
+    transform-style: flat !important;
+    backface-visibility: visible !important;
     position: relative !important;
     height: auto !important;
-    min-height: 100dvh !important;
+    min-height: auto !important; /* Desativa 100dvh forçado para altura natural */
     max-height: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -1637,6 +1642,7 @@ img {
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important; /* Exibe apenas a página ativa */
+    transform: none !important;
   }
 
   .site-header {
@@ -2306,12 +2312,17 @@ img {
 </script>
   <script>
 (function () {
+  // view: Gerencia toda a parte visual e a injeção do HTML gerado pelos dados do modelo.
+  // Criamos funções utilitárias rápidas para enxugar o código e evitar repetição.
+
   const languageColors = () => window.Portfolio.Model.languageColors;
 
+  // Atalho rápido para selecionar elementos pelo ID
   function byId(id) {
     return document.getElementById(id);
   }
 
+  // Cria um elemento HTML com classe e texto de forma enxuta
   function createElement(tag, className, text) {
     const element = document.createElement(tag);
     if (className) {
@@ -2323,12 +2334,14 @@ img {
     return element;
   }
 
+  // Atalho para ícones de fontes Bootstrap
   function createIcon(className) {
     const icon = createElement("i", `bi ${className}`);
     icon.setAttribute("aria-hidden", "true");
     return icon;
   }
 
+  // Formatação amigável das datas vindas do GitHub
   function formatDate(dateString) {
     return new Intl.DateTimeFormat("pt-BR", {
       day: "2-digit",
@@ -2337,6 +2350,7 @@ img {
     }).format(new Date(dateString));
   }
 
+  // Monta os cards 3D de skills (aba Tech Stack) dinamicamente
   function renderSkills(skills) {
     const grid = byId("skills-grid");
     if (!grid) return;
