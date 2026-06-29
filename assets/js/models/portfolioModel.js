@@ -10,12 +10,12 @@
     java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
     python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     c: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
-    cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
-    javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
-    html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
+    cpp: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
+    javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+    html: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
     css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
-    node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
+    gamemaker: "https://cdn.simpleicons.org/gamemaker/1C9E24",
+    node: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
   };
 
   const skills = [
@@ -90,20 +90,21 @@
   };
 
   function normalizeRepository(repo) {
+    if (!repo) return null;
     return {
       id: repo.id,
-      name: repo.name,
-      fullName: repo.full_name,
-      owner: repo.owner.login,
+      name: repo.name || "Repositório",
+      fullName: repo.full_name || "",
+      owner: (repo.owner && repo.owner.login) ? repo.owner.login : "",
       description: repo.description || "Sem descrição publicada no GitHub.",
       language: repo.language || "Sem linguagem",
       topics: Array.isArray(repo.topics) ? repo.topics : [],
       stars: repo.stargazers_count || 0,
       forks: repo.forks_count || 0,
-      updatedAt: repo.updated_at,
-      url: repo.html_url,
+      updatedAt: repo.updated_at || new Date().toISOString(),
+      url: repo.html_url || "",
       homepage: repo.homepage,
-      isFork: repo.fork
+      isFork: repo.fork || false
     };
   }
 
@@ -138,8 +139,9 @@
     const allRepos = [...userRepos, ...collabRepos];
 
     return allRepos
-      .filter((repo) => !repo.fork || collaboratorRepoPaths.includes(repo.full_name))
+      .filter((repo) => repo && (!repo.fork || collaboratorRepoPaths.includes(repo.full_name)))
       .map(normalizeRepository)
+      .filter((repo) => repo !== null)
       .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   }
 
