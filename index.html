@@ -111,6 +111,7 @@ button,
 input,
 textarea,
 select,
+label,
 [role="button"],
 .magnetic-link,
 .skill-card,
@@ -239,12 +240,33 @@ body.near-right-edge .cursor-ring {
 }
 
 .navbar-brand {
+  position: relative !important;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
+  padding-bottom: 2px !important;
+}
+
+.navbar-brand::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  left: 44px; /* Começa abaixo de "Hugo", pulando o logo */
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(245, 242, 232, 0.75) !important;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+
+.navbar-brand:hover::after,
+.navbar-brand.active::after {
+  transform: scaleX(1);
 }
 
 .navbar-brand:hover,
@@ -1462,8 +1484,7 @@ img {
   letter-spacing: 1px;
 }
 
-.contact-form input,
-.contact-form textarea {
+.contact-form input {
   width: 100%;
   border: 1px solid var(--line) !important;
   border-radius: var(--radius);
@@ -1474,16 +1495,24 @@ img {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--mint) !important;
-  box-shadow: 0 0 12px rgba(66, 242, 183, 0.35) !important;
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius);
+  background: rgba(9, 10, 8, 0.6) !important;
+  color: var(--text) !important;
+  outline: 0;
+  padding: 12px 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none !important;
+  height: 120px !important;
+  max-height: 120px !important;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: rgba(66, 242, 183, 0.64);
-  box-shadow: 0 0 0 3px rgba(66, 242, 183, 0.18);
+  border-color: var(--mint) !important;
+  box-shadow: 0 0 12px rgba(66, 242, 183, 0.35) !important;
 }
 
 .site-footer {
@@ -1719,11 +1748,13 @@ img {
   font-size: 0.8rem !important;
   font-weight: 800 !important;
   padding: 0 !important;
-  margin-left: 6px !important;
+  margin-top: 6px !important;
+  margin-left: 0 !important;
   cursor: none !important; /* Respeita o cursor personalizado do site */
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  display: inline-block !important;
+  display: block !important; /* Força quebra para a próxima linha */
+  text-align: left !important;
 }
 
 .read-more-btn:hover {
@@ -1966,7 +1997,7 @@ img {
         <span>© <span id="current-year">2026</span> Hugo Oliveira Silva. Desenvolvedor de Jogos &amp; Software.</span>
       </div>
       <div class="footer-center">
-        <span>IFMA Campus Açailândia // Informática</span>
+        <span>Feito com HTML5, CSS3, Three.js &amp; Bootstrap</span>
       </div>
       <div class="footer-right">
         <a href="mailto:devhugoo.os@gmail.com"><i class="bi bi-envelope"></i> devhugoo.os@gmail.com</a>
@@ -2935,7 +2966,7 @@ img {
     lastTransitionTime = Date.now();
 
     // Atualiza links da navbar
-    const links = document.querySelectorAll(".navbar .nav-link");
+    const links = document.querySelectorAll(".navbar .nav-link, .navbar .navbar-brand");
     links.forEach((link) => {
       const href = link.getAttribute("href");
       link.classList.toggle("active", href === `#${targetId}`);
@@ -2952,6 +2983,15 @@ img {
     if (isNavigatingStepByStep) return;
     
     isNavigatingStepByStep = true;
+    
+    // Temporariamente acelera a transição para 250ms em todas as páginas para criar o mesmo efeito de slide rápido
+    pageOrder.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.transition = "transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s, visibility 0.25s";
+      }
+    });
+
     const steps = [];
     const stepDirection = targetIndex > activeIndex ? 1 : -1;
     let currentStep = activeIndex;
@@ -2964,10 +3004,18 @@ img {
     let delay = 0;
     steps.forEach((stepIdx, idx) => {
       setTimeout(() => {
-        if (idx === steps.length - 1) {
-          isNavigatingStepByStep = false;
-        }
         navigatePage(stepIdx);
+        
+        if (idx === steps.length - 1) {
+          // Após o término do último passo, reverte os tempos de transição para o padrão do CSS
+          setTimeout(() => {
+            pageOrder.forEach((id) => {
+              const el = document.getElementById(id);
+              if (el) el.style.transition = "";
+            });
+            isNavigatingStepByStep = false;
+          }, 250);
+        }
       }, delay);
       delay += 250;
     });
@@ -2975,7 +3023,7 @@ img {
 
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
-    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
+    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#'], .navbar .navbar-brand[href^='#']"));
     const collapse = menu && window.bootstrap ? new bootstrap.Collapse(menu, { toggle: false }) : null;
 
     links.forEach((link) => {
