@@ -1594,17 +1594,22 @@ img {
   }
 
   .portfolio-pages-container {
+    perspective: none !important;
+    perspective-origin: ease !important;
+    transform: none !important;
     height: auto !important;
     max-height: none !important;
     top: 0 !important;
-    transform: none !important;
     overflow: visible !important;
   }
 
   .portfolio-page {
+    transform: none !important;
+    transform-style: flat !important;
+    backface-visibility: visible !important;
     position: relative !important;
     height: auto !important;
-    min-height: 100dvh !important;
+    min-height: auto !important; /* Desativa 100dvh forçado para altura natural */
     max-height: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -1623,6 +1628,7 @@ img {
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important; /* Exibe apenas a página ativa */
+    transform: none !important;
   }
 
   .site-header {
