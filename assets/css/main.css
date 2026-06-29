@@ -1629,6 +1629,11 @@ img {
   }
 
   .navbar-collapse {
+    position: absolute !important;
+    top: 100%;
+    left: 12px;
+    right: 12px;
+    z-index: 1000 !important;
     padding: 16px 20px !important;
     background: rgba(9, 10, 8, 0.96) !important;
     backdrop-filter: blur(12px) !important;
@@ -1636,6 +1641,18 @@ img {
     border-radius: var(--radius) !important;
     margin-top: 10px !important;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+  }
+
+  .site-footer {
+    position: static !important;
+    transform: none !important;
+    border-top: 1px solid rgba(245, 242, 232, 0.15) !important;
+    padding: 20px 0 24px !important;
+    background: rgba(9, 10, 8, 0.95) !important;
+  }
+
+  .footer-trigger {
+    display: none !important;
   }
   
   .navbar-toggler {
