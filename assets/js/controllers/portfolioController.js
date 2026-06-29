@@ -109,6 +109,34 @@
     history.pushState(null, null, `#${targetId}`);
   }
 
+  let isNavigatingStepByStep = false;
+  function navigateStepByStep(targetIndex) {
+    if (targetIndex < 0 || targetIndex >= pageOrder.length) return;
+    if (targetIndex === activeIndex) return;
+    if (isNavigatingStepByStep) return;
+    
+    isNavigatingStepByStep = true;
+    const steps = [];
+    const stepDirection = targetIndex > activeIndex ? 1 : -1;
+    let currentStep = activeIndex;
+    
+    while (currentStep !== targetIndex) {
+      currentStep += stepDirection;
+      steps.push(currentStep);
+    }
+    
+    let delay = 0;
+    steps.forEach((stepIdx, idx) => {
+      setTimeout(() => {
+        if (idx === steps.length - 1) {
+          isNavigatingStepByStep = false;
+        }
+        navigatePage(stepIdx);
+      }, delay);
+      delay += 250;
+    });
+  }
+
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
     const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
@@ -120,7 +148,7 @@
         const targetId = link.getAttribute("href").substring(1);
         const targetIdx = pageOrder.indexOf(targetId);
         if (targetIdx !== -1) {
-          navigatePage(targetIdx);
+          navigateStepByStep(targetIdx);
         }
         if (collapse && menu.classList.contains("show")) {
           collapse.hide();
@@ -154,6 +182,8 @@
     let dragStartX = 0;
     let dragStartY = 0;
     let dragProgress = 0;
+    let snapTimeoutNext = null;
+    let snapTimeoutPrev = null;
     
     // Detecção das bordas da tela para chevrons
     const edgeThreshold = 100;
@@ -176,9 +206,21 @@
     window.addEventListener("pointerdown", (e) => {
       if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
       
+      // Cancelar timeouts pendentes para evitar conflitos de visibilidade
+      if (snapTimeoutNext) { clearTimeout(snapTimeoutNext); snapTimeoutNext = null; }
+      if (snapTimeoutPrev) { clearTimeout(snapTimeoutPrev); snapTimeoutPrev = null; }
+
       // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
       
+      // Desativar transições inline das páginas imediatamente no toque para não ter lag ao arrastar novamente
+      const curPage = document.getElementById(pageOrder[activeIndex]);
+      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+      if (curPage) curPage.style.transition = "none";
+      if (nextPage) nextPage.style.transition = "none";
+      if (prevPage) prevPage.style.transition = "none";
+
       const now = Date.now();
       if (now - lastTransitionTime < 900) return;
 
@@ -306,15 +348,17 @@
         if (nextPage) {
           nextPage.style.transform = "";
           nextPage.style.opacity = "";
-          setTimeout(() => {
+          snapTimeoutNext = setTimeout(() => {
             if (!isDragging) nextPage.style.visibility = "";
+            snapTimeoutNext = null;
           }, 800);
         }
         if (prevPage) {
           prevPage.style.transform = "";
           prevPage.style.opacity = "";
-          setTimeout(() => {
+          snapTimeoutPrev = setTimeout(() => {
             if (!isDragging) prevPage.style.visibility = "";
+            snapTimeoutPrev = null;
           }, 800);
         }
       }
@@ -340,7 +384,7 @@
       const hash = window.location.hash.substring(1) || "inicio";
       const targetIdx = pageOrder.indexOf(hash);
       if (targetIdx !== -1 && targetIdx !== activeIndex) {
-        navigatePage(targetIdx);
+        navigateStepByStep(targetIdx);
       }
     });
   }
