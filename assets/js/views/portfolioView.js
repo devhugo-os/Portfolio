@@ -71,34 +71,13 @@
 
     const cards = items.map((item) => {
       const article = createElement("article", "featured-card");
+      
+      const header = createElement("div", "featured-header");
       const icon = createIcon(item.icon);
       const title = createElement("h3", "", item.title);
-      const description = createElement("p", "repo-description-p");
-      const fullText = item.description;
-      const maxChars = 80;
+      header.append(icon, title);
 
-      if (fullText.length > maxChars) {
-        const truncatedText = fullText.substring(0, maxChars) + "...";
-        const textNode = document.createTextNode(truncatedText);
-        description.appendChild(textNode);
-
-        const toggleBtn = createElement("button", "read-more-btn", "Ler mais");
-        toggleBtn.type = "button";
-        toggleBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const isExpanded = article.classList.toggle("expanded");
-          if (isExpanded) {
-            textNode.nodeValue = fullText;
-            toggleBtn.textContent = "Ler menos";
-          } else {
-            textNode.nodeValue = truncatedText;
-            toggleBtn.textContent = "Ler mais";
-          }
-        });
-        description.appendChild(toggleBtn);
-      } else {
-        description.textContent = fullText;
-      }
+      const description = createElement("p", "featured-desc-p", item.description);
 
       const tags = createElement("div", "featured-tags");
       item.tags.forEach((tag) => tags.appendChild(createElement("span", "", tag)));
@@ -109,7 +88,7 @@
       link.rel = "noreferrer";
       link.append(createIcon("bi-box-arrow-up-right"), document.createTextNode("Ver projeto"));
 
-      article.append(icon, title, description, tags, link);
+      article.append(header, description, tags, link);
       return article;
     });
 
