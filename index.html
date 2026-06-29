@@ -2,17 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <script>
-    // Correção de rota do GitHub Pages para garantir que os arquivos relativos carreguem do subdiretório correto
-    if (window.location.hostname.includes("github.io")) {
-      const pathParts = window.location.pathname.split('/');
-      const lastPart = pathParts[pathParts.length - 1];
-      if (lastPart === 'Portfolio' || lastPart === 'portfolio') {
-        const newPath = window.location.pathname + '/';
-        window.location.replace(window.location.origin + newPath + window.location.search + window.location.hash);
-      }
-    }
-  </script>
+  <script src="assets/js/router.js?v=2.6.2"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Portfólio interativo de Hugo Oliveira Silva, desenvolvedor de jogos e software.">
   <title>Hugo Oliveira Silva | Portfólio Interativo</title>
