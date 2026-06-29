@@ -1664,6 +1664,14 @@ body.is-fullscreen .site-footer {
     border-radius: var(--radius) !important;
     margin-top: 10px !important;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+    transition: opacity 0.15s ease-in-out !important;
+  }
+
+  .collapsing {
+    transition: opacity 0.15s ease-in-out !important;
+    height: auto !important;
+    display: block !important;
+    opacity: 0;
   }
 
   .site-footer {

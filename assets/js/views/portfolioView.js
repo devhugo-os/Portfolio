@@ -159,7 +159,7 @@
       const article = createElement("article", "repo-card");
       const title = createElement("h3", "", repo.name);
       const description = createElement("p", "repo-description-p");
-      const fullText = repo.description;
+      const fullText = repo.description || "Sem descrição publicada no GitHub.";
       const maxChars = 80;
 
       if (fullText.length > maxChars) {

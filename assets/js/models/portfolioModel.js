@@ -14,8 +14,8 @@
     javascript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     html: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
     css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-    gamemaker: "https://cdn.simpleicons.org/gamemaker/1C9E24",
-    node: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+    gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
+    node: "img/Nodejs.svg"
   };
 
   const skills = [
