@@ -32,8 +32,6 @@ html {
 html, body {
   height: 100dvh !important;
   overflow: hidden !important;
-  background-color: #090a08 !important;
-  color-scheme: dark !important;
 }
 
 body {
