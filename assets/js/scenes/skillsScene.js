@@ -5,6 +5,11 @@
       return;
     }
 
+    // No celular, não inicializa as skills em 3D para poupar contextos WebGL e evitar travamento/dead context
+    if (window.innerWidth < 992) {
+      return;
+    }
+
     if (!THREE.SVGLoader) {
       console.warn("SVGLoader do Three.js não está carregado. Importe o SVGLoader.js no index.html.");
       return;

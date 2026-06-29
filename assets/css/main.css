@@ -726,10 +726,20 @@ body.near-right-edge .cursor-ring {
   border-radius: inherit;
 }
 
-.skill-card img {
+.skill-static-icon {
+  display: none;
   width: 42px;
   height: 42px;
   object-fit: contain;
+}
+
+@media (max-width: 991.98px) {
+  .skill-3d-canvas {
+    display: none !important;
+  }
+  .skill-static-icon {
+    display: block;
+  }
 }
 
 .skill-card h3 {

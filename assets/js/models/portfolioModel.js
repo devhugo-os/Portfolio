@@ -107,58 +107,10 @@
     };
   }
 
-  const fallbackRepositories = [
-    {
-      id: 101,
-      name: "Biblioteca-FullStack",
-      full_name: "Rhuan-cmd/Biblioteca-FullStack",
-      owner: { login: "Rhuan-cmd" },
-      description: "Sistema completo de gerenciamento de biblioteca utilizando arquitetura Full-Stack.",
-      language: "Java",
-      topics: ["fullstack", "biblioteca", "java", "sql"],
-      stargazers_count: 5,
-      forks_count: 2,
-      updated_at: new Date().toISOString(),
-      html_url: "https://github.com/Rhuan-cmd/Biblioteca-FullStack",
-      homepage: null,
-      fork: true
-    },
-    {
-      id: 102,
-      name: "NeuroSys",
-      full_name: "Rhuan-cmd/NeuroSys",
-      owner: { login: "Rhuan-cmd" },
-      description: "Plataforma de inteligência artificial e análise de dados neurais.",
-      language: "Python",
-      topics: ["neuroscience", "ai", "python", "data-science"],
-      stargazers_count: 8,
-      forks_count: 1,
-      updated_at: new Date().toISOString(),
-      html_url: "https://github.com/Rhuan-cmd/NeuroSys",
-      homepage: null,
-      fork: true
-    },
-    {
-      id: 103,
-      name: "Portfolio",
-      full_name: "devhugo-os/Portfolio",
-      owner: { login: "devhugo-os" },
-      description: "Portfólio interativo 3D desenvolvido com Three.js, HTML5 e CSS3.",
-      language: "JavaScript",
-      topics: ["threejs", "portfolio", "frontend", "3d"],
-      stargazers_count: 10,
-      forks_count: 3,
-      updated_at: new Date().toISOString(),
-      html_url: "https://github.com/devhugo-os/Portfolio",
-      homepage: "https://devhugo-os.github.io/Portfolio/",
-      fork: false
-    }
-  ];
-
   async function fetchRepositories() {
     const endpoint = `https://api.github.com/users/${githubUser}/repos?sort=updated&direction=desc&per_page=30`;
     
-    // Buscar repositórios do usuário e colaboradores concorrentemente com tratamento de erro isolado
+    // Buscar repositórios do usuário e colaboradores concorrentemente
     const userReposPromise = fetch(endpoint, {
       headers: { Accept: "application/vnd.github+json" }
     })
@@ -174,19 +126,13 @@
           return await res.json();
         }
       } catch (e) {}
-      // Fallback para colaborador
-      return fallbackRepositories.find(r => r.full_name === path) || null;
+      return null;
     });
 
-    let [userRepos, ...collabReposResults] = await Promise.all([
+    const [userRepos, ...collabReposResults] = await Promise.all([
       userReposPromise,
       ...collaboratorPromises
     ]);
-
-    // Se a API não retornou nada do usuário principal (offline ou rate limit), usar fallback local
-    if (!userRepos || userRepos.length === 0) {
-      userRepos = fallbackRepositories.filter(r => r.full_name.startsWith(githubUser));
-    }
 
     const collabRepos = collabReposResults.filter(r => r !== null);
     const allRepos = [...userRepos, ...collabRepos];

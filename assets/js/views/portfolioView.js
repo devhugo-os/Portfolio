@@ -51,7 +51,13 @@
       const canvas = createElement("canvas", "skill-3d-canvas");
       canvas.dataset.name = skill.name;
       canvas.dataset.icon = skill.icon;
-      logo.appendChild(canvas);
+      
+      const img = createElement("img", "skill-static-icon");
+      img.src = skill.icon;
+      img.alt = skill.name;
+      img.draggable = false;
+      
+      logo.append(canvas, img);
 
       const title = createElement("h3", "", skill.name);
       const detail = createElement("p", "skill-detail", skill.detail);
