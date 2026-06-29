@@ -1586,6 +1586,37 @@ img {
 }
 
 @media (max-width: 991.98px) {
+  html, body {
+    height: auto !important;
+    overflow-y: auto !important; /* Libera rolagem nativa */
+  }
+
+  .portfolio-pages-container {
+    height: auto !important;
+    max-height: none !important;
+    top: 0 !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  .portfolio-page {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important; /* Oculta páginas não ativas para não empilhar conteúdo */
+    overflow-y: visible !important;
+    padding: 100px 0 60px !important;
+  }
+
+  .portfolio-page.active-page {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important; /* Exibe apenas a página ativa */
+  }
+
   .site-header {
     top: 8px;
   }
@@ -1619,15 +1650,23 @@ img {
     filter: invert(1) hue-rotate(90deg) brightness(1.2) !important;
   }
 
+  .hero-section {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
   .hero-grid,
   .about-layout,
   .contact-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
   }
 
   .hero-portrait {
     order: -1;
     width: min(300px, 72vw);
+    margin: 0 auto 20px !important;
   }
 
   .project-toolbar {
@@ -1636,6 +1675,34 @@ img {
 
   .repo-filters {
     grid-column: 1 / -1;
+  }
+
+  .skill-card {
+    height: auto !important;
+    min-height: 180px !important;
+  }
+  
+  .repo-card, .featured-card {
+    height: auto !important;
+    min-height: 280px !important;
+    padding: 16px !important;
+  }
+  
+  .repo-card p, .featured-card p {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+    gap: 10px !important;
+  }
+  
+  .repo-grid,
+  .featured-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
 }
 
