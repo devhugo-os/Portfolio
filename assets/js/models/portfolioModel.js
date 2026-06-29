@@ -13,21 +13,21 @@
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
     node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
 
   const skills = [
     { name: "Java", detail: "Linguagem de programação", startDate: "2024-03-11", experience: "Base para sistemas e lógica", icon: skillIcons.java },
-    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", icon: skillIcons.python },
-    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", icon: skillIcons.c },
-    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Base em programação", icon: skillIcons.cpp },
+    { name: "Python 3.13", detail: "Automação, scripts e protótipos", startDate: "2024-03-11", experience: "Automação, análise e machine learning", icon: skillIcons.python },
+    { name: "C", detail: "Fundamentos e performance", startDate: "2024-03-11", experience: "Algoritmos e estruturas de baixo nível", icon: skillIcons.c },
+    { name: "C++", detail: "Estruturas e jogos", startDate: "2024-03-11", experience: "Estruturas e jogos de alto desempenho", icon: skillIcons.cpp },
     { name: "JavaScript", detail: "Interfaces e interações web", startDate: "2024-03-11", experience: "Interatividade e front-end", icon: skillIcons.javascript },
-    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Web", icon: skillIcons.html },
-    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Web", icon: skillIcons.css },
-    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", icon: skillIcons.gamemaker },
-    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", icon: skillIcons.node }
+    { name: "HTML5", detail: "Estrutura web semântica", startDate: "2024-03-11", experience: "Marcação e SEO", icon: skillIcons.html },
+    { name: "CSS3", detail: "Layouts, animações e responsividade", startDate: "2024-03-11", experience: "Layouts modernos e estilizações", icon: skillIcons.css },
+    { name: "GameMaker", detail: "Jogos 2D e Game Jams", startDate: "2024-03-11", experience: "Lógica de jogos 2D e prototipagem", icon: skillIcons.gamemaker },
+    { name: "Node.js", detail: "Back-end e APIs", startDate: "2025-03-11", experience: "APIs RESTful e servidores web", icon: skillIcons.node }
   ];
 
   // Calcula a experiência dinamicamente baseada na data de início de cada tecnologia
@@ -84,7 +84,9 @@
     "C++": "#00599c",
     PHP: "#777bb4",
     GDScript: "#478cbf",
-    Shell: "#89e051"
+    Shell: "#89e051",
+    GameMaker: "#ffffff",
+    Node: "#339933"
   };
 
   function normalizeRepository(repo) {
