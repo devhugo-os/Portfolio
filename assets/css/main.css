@@ -1554,7 +1554,8 @@ img {
 
 /* Mostrar rodapé continuamente em fullscreen */
 :fullscreen .site-footer,
-:-webkit-full-screen .site-footer {
+:-webkit-full-screen .site-footer,
+body.is-fullscreen .site-footer {
   transform: translateY(0) !important;
 }
 
