@@ -334,7 +334,17 @@
     window.addEventListener("pointerup", (e) => {
       if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
       isDragReady = false;
-      if (!isDragging) return;
+      
+      // Se não estava arrastando (clique simples), restaura as transições das abas imediatamente para permitir slide no clique
+      if (!isDragging) {
+        const curPage = document.getElementById(pageOrder[activeIndex]);
+        const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+        const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+        if (curPage) curPage.style.transition = "";
+        if (nextPage) nextPage.style.transition = "";
+        if (prevPage) prevPage.style.transition = "";
+        return;
+      }
       isDragging = false;
 
       const threshold = 0.15; // 15% de arraste para mudar de página
