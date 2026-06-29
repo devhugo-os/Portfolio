@@ -1494,8 +1494,8 @@ img {
   z-index: 1000 !important;
   background: rgba(9, 10, 8, 0.95);
   backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(59, 130, 246, 0.25);
-  padding: 12px 0 16px;
+  border-top: 1px solid rgba(245, 242, 232, 0.15) !important; /* Borda neutra */
+  padding: 10px 0 14px;
   transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   color: var(--muted);
@@ -1510,36 +1510,35 @@ img {
   padding-top: 0;
 }
 
-/* Rodapé HUD */
-.footer-hud-left,
-.footer-hud-center,
-.footer-hud-right {
+.footer-left,
+.footer-center,
+.footer-right {
   display: flex;
   align-items: center;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-weight: 500;
+  color: rgba(245, 242, 232, 0.65);
 }
 
-.footer-hud-left {
-  color: var(--mint);
-}
-
-.hud-indicator {
-  display: flex;
+.footer-right a {
+  color: rgba(245, 242, 232, 0.65);
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  transition: color 0.2s ease;
+  cursor: none !important;
 }
 
-.hud-pulse {
-  width: 8px;
-  height: 8px;
-  background: var(--mint);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--mint);
-  display: inline-block;
-  animation: pulse 1.6s infinite alternate;
+.footer-right a:hover {
+  color: var(--mint) !important;
+}
+
+/* Mostrar rodapé continuamente em fullscreen */
+:fullscreen .site-footer,
+:-webkit-full-screen .site-footer {
+  transform: translateY(0) !important;
 }
 
 @keyframes pulse {
@@ -1996,7 +1995,7 @@ img {
     cpp: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cplusplus.svg",
     javascript: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/javascript.svg",
     html: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/html5.svg",
-    css: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/css3.svg",
+    css: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
     gamemaker: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/gamemaker.svg",
     node: "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nodedotjs.svg"
   };
@@ -2662,6 +2661,11 @@ img {
             if (i === 0) finalColor = new THREE.Color("#3776AB"); // Azul oficial
             else if (i === 1) finalColor = new THREE.Color("#FFD343"); // Amarelo oficial
             else finalColor = new THREE.Color("#FFFFFF");
+          } else if (url.includes("css3")) {
+            if (i === 0) finalColor = new THREE.Color("#1572B6"); // Azul oficial esquerdo
+            else if (i === 1) finalColor = new THREE.Color("#33A9FF"); // Azul claro direito
+            else if (i === 2) finalColor = new THREE.Color("#FFFFFF"); // Branco "3"
+            else finalColor = new THREE.Color("#FFFFFF");
           } else {
             const isDefaultBlack = path.color && path.color.getHexString() === "000000";
             finalColor = path.color && !isDefaultBlack ? path.color : new THREE.Color(languageColor);
@@ -2690,6 +2694,8 @@ img {
             });
             
             const mesh = new THREE.Mesh(geometry, material);
+            // Offset em Z para evitar Z-fighting (caminhos renderizados em planos ligeiramente separados)
+            mesh.position.z = i * 0.5 * scaleRatio;
             group.add(mesh);
           }
         }
@@ -2939,6 +2945,34 @@ img {
     history.pushState(null, null, `#${targetId}`);
   }
 
+  let isNavigatingStepByStep = false;
+  function navigateStepByStep(targetIndex) {
+    if (targetIndex < 0 || targetIndex >= pageOrder.length) return;
+    if (targetIndex === activeIndex) return;
+    if (isNavigatingStepByStep) return;
+    
+    isNavigatingStepByStep = true;
+    const steps = [];
+    const stepDirection = targetIndex > activeIndex ? 1 : -1;
+    let currentStep = activeIndex;
+    
+    while (currentStep !== targetIndex) {
+      currentStep += stepDirection;
+      steps.push(currentStep);
+    }
+    
+    let delay = 0;
+    steps.forEach((stepIdx, idx) => {
+      setTimeout(() => {
+        if (idx === steps.length - 1) {
+          isNavigatingStepByStep = false;
+        }
+        navigatePage(stepIdx);
+      }, delay);
+      delay += 250;
+    });
+  }
+
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
     const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
@@ -2950,7 +2984,7 @@ img {
         const targetId = link.getAttribute("href").substring(1);
         const targetIdx = pageOrder.indexOf(targetId);
         if (targetIdx !== -1) {
-          navigatePage(targetIdx);
+          navigateStepByStep(targetIdx);
         }
         if (collapse && menu.classList.contains("show")) {
           collapse.hide();
@@ -2984,6 +3018,8 @@ img {
     let dragStartX = 0;
     let dragStartY = 0;
     let dragProgress = 0;
+    let snapTimeoutNext = null;
+    let snapTimeoutPrev = null;
     
     // Detecção das bordas da tela para chevrons
     const edgeThreshold = 100;
@@ -3006,9 +3042,21 @@ img {
     window.addEventListener("pointerdown", (e) => {
       if (window.innerWidth < 992) return; // Desativa arraste de tela em dispositivos móveis
       
+      // Cancelar timeouts pendentes para evitar conflitos de visibilidade
+      if (snapTimeoutNext) { clearTimeout(snapTimeoutNext); snapTimeoutNext = null; }
+      if (snapTimeoutPrev) { clearTimeout(snapTimeoutPrev); snapTimeoutPrev = null; }
+
       // Ignorar se clicar em elementos interativos
       if (e.target.closest("a, button, input, textarea, select, canvas, .skill-card, .repo-card, .featured-card")) return;
       
+      // Desativar transições inline das páginas imediatamente no toque para não ter lag ao arrastar novamente
+      const curPage = document.getElementById(pageOrder[activeIndex]);
+      const nextPage = document.getElementById(pageOrder[activeIndex + 1]);
+      const prevPage = document.getElementById(pageOrder[activeIndex - 1]);
+      if (curPage) curPage.style.transition = "none";
+      if (nextPage) nextPage.style.transition = "none";
+      if (prevPage) prevPage.style.transition = "none";
+
       const now = Date.now();
       if (now - lastTransitionTime < 900) return;
 
@@ -3136,15 +3184,17 @@ img {
         if (nextPage) {
           nextPage.style.transform = "";
           nextPage.style.opacity = "";
-          setTimeout(() => {
+          snapTimeoutNext = setTimeout(() => {
             if (!isDragging) nextPage.style.visibility = "";
+            snapTimeoutNext = null;
           }, 800);
         }
         if (prevPage) {
           prevPage.style.transform = "";
           prevPage.style.opacity = "";
-          setTimeout(() => {
+          snapTimeoutPrev = setTimeout(() => {
             if (!isDragging) prevPage.style.visibility = "";
+            snapTimeoutPrev = null;
           }, 800);
         }
       }
@@ -3170,7 +3220,7 @@ img {
       const hash = window.location.hash.substring(1) || "inicio";
       const targetIdx = pageOrder.indexOf(hash);
       if (targetIdx !== -1 && targetIdx !== activeIndex) {
-        navigatePage(targetIdx);
+        navigateStepByStep(targetIdx);
       }
     });
   }
