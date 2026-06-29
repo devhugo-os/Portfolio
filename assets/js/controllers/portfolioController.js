@@ -328,6 +328,7 @@
 
       if (dragProgress < 0 && nextPage) {
         // Arrastando para a esquerda (revela a próxima página)
+        nextPage.style.visibility = "visible";
         curPage.style.transform = `translate3d(${dragProgress * 100}%, 0, ${dragProgress * 250}px) rotateY(${dragProgress * 45}deg)`;
         curPage.style.opacity = 1 + dragProgress;
 
@@ -340,6 +341,7 @@
         }
       } else if (dragProgress > 0 && prevPage) {
         // Arrastando para a direita (revela a página anterior)
+        prevPage.style.visibility = "visible";
         curPage.style.transform = `translate3d(${dragProgress * 100}%, 0, ${-dragProgress * 250}px) rotateY(${dragProgress * 45}deg)`;
         curPage.style.opacity = 1 - dragProgress;
 
