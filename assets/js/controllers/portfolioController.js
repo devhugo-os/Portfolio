@@ -99,7 +99,7 @@
     lastTransitionTime = Date.now();
 
     // Atualiza links da navbar
-    const links = document.querySelectorAll(".navbar .nav-link");
+    const links = document.querySelectorAll(".navbar .nav-link, .navbar .navbar-brand");
     links.forEach((link) => {
       const href = link.getAttribute("href");
       link.classList.toggle("active", href === `#${targetId}`);
@@ -116,6 +116,15 @@
     if (isNavigatingStepByStep) return;
     
     isNavigatingStepByStep = true;
+    
+    // Temporariamente acelera a transição para 250ms em todas as páginas para criar o mesmo efeito de slide rápido
+    pageOrder.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.transition = "transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s, visibility 0.25s";
+      }
+    });
+
     const steps = [];
     const stepDirection = targetIndex > activeIndex ? 1 : -1;
     let currentStep = activeIndex;
@@ -128,10 +137,18 @@
     let delay = 0;
     steps.forEach((stepIdx, idx) => {
       setTimeout(() => {
-        if (idx === steps.length - 1) {
-          isNavigatingStepByStep = false;
-        }
         navigatePage(stepIdx);
+        
+        if (idx === steps.length - 1) {
+          // Após o término do último passo, reverte os tempos de transição para o padrão do CSS
+          setTimeout(() => {
+            pageOrder.forEach((id) => {
+              const el = document.getElementById(id);
+              if (el) el.style.transition = "";
+            });
+            isNavigatingStepByStep = false;
+          }, 250);
+        }
       }, delay);
       delay += 250;
     });
@@ -139,7 +156,7 @@
 
   function initNavigation() {
     const menu = document.getElementById("mainMenu");
-    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#']"));
+    const links = Array.from(document.querySelectorAll(".navbar .nav-link[href^='#'], .navbar .navbar-brand[href^='#']"));
     const collapse = menu && window.bootstrap ? new bootstrap.Collapse(menu, { toggle: false }) : null;
 
     links.forEach((link) => {
